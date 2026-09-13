@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRIDENT — Full-stack Developer &amp; Visual Designer</title>
+  <meta name="description" content="TRIDENT (Đặng Phước Trí) — Full-stack Developer, Visual Designer, Azure Cloud Architect &amp; FOSS Gardener.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/style.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231e1b18'/%3E%3Cpath d='M20 20v14c0 6.627 5.373 12 12 12s12-5.373 12-12V20M32 46v6M20 20h24' fill='none' stroke='%23d4a373' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='32' cy='20' r='2.5' fill='%23d4a373'/%3E%3C/svg%3E">
+</head>
+<body class="single-page">
+  <!-- Fullscreen WebGL 3D Canvas Viewport -->
+  <div id="canvas-container" class="webgl-canvas-container"></div>
+
+
+
+  <!-- UI Overlay Layer -->
+  <div class="ui-overlay">
+    
+    <!-- Top Navigation Bar -->
+    <header class="top-bar">
+      <div class="brand-group">
+        <h1 class="brand-title">TRIDENT</h1>
+        <p class="brand-subtitle">Full-stack Developer<br>&amp; Visual Designer</p>
+      </div>
+
+      <nav class="top-nav">
+        <button class="nav-btn" data-target="home">Home</button>
+        <button class="nav-btn" data-target="about">About</button>
+        <button class="nav-btn" data-target="experience">Experience</button>
+        <button class="nav-btn" data-target="certifications">Certs</button>
+        <button class="nav-btn" data-target="skills">Stack</button>
+        <button class="nav-btn" data-target="contact">Contact</button>
+
+        <!-- Sound Toggle with Live Animated Equalizer -->
+        <button id="soundToggle" class="pill-btn sound-pill" title="Toggle mechanical acoustic piano audio">
+          <div class="equalizer-bars" id="eqBars">
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+            <span class="eq-bar"></span>
+          </div>
+          <span id="soundText">AUDIO</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Left Vertical Utility Bar -->
+    <aside class="left-dock">
+      <div class="dock-top">
+        <button class="icon-btn" id="menuToggle" title="Open Curator Archive">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <button class="icon-btn" id="quickSearch" title="Search Stack &amp; Tools">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+        <button class="icon-btn" id="codeViewToggle" title="Cloud Code View">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </button>
+      </div>
+
+      <div class="dock-bottom">
+        <a href="https://azharahmad.com" target="_blank" rel="noopener" class="icon-btn" title="GitHub: tridentsof">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/tri-dang-phuoc-trident-85b066244/" target="_blank" rel="noopener" class="icon-btn" title="LinkedIn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45c-.9 0-1.63.73-1.63 1.63 0 .9.73 1.64 1.63 1.64.9 0 1.64-.74 1.64-1.64 0-.9-.74-1.63-1.64-1.63z"/></svg>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Right Vertical Dock: Lighting Mode Switcher -->
+    <aside class="right-dock">
+      <div class="lighting-switcher" title="Studio Lighting Rig">
+        <span class="lighting-label">LIGHTING</span>
+        <button class="light-preset-btn active" data-light="morning" title="Morning Sunlight" aria-label="Morning Sunlight">
+          <svg class="preset-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+        </button>
+        <button class="light-preset-btn" data-light="golden" title="Golden Hour" aria-label="Golden Hour">
+          <svg class="preset-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 18a5 5 0 0 0-10 0"/>
+            <line x1="12" y1="2" x2="12" y2="9"/>
+            <line x1="4.22" y1="10.22" x2="5.64" y2="11.64"/>
+            <line x1="1" y1="18" x2="23" y2="18"/>
+            <line x1="19.78" y1="10.22" x2="18.36" y2="11.64"/>
+            <line x1="23" y1="22" x2="1" y2="22"/>
+          </svg>
+        </button>
+        <button class="light-preset-btn" data-light="studio" title="Studio Warmth" aria-label="Studio Warmth">
+          <svg class="preset-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6"/>
+            <path d="M10 22h4"/>
+            <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/>
+          </svg>
+        </button>
+      </div>
+
+      <a href="mailto:tridp.it@outlook.com" class="icon-btn" title="Email Trident">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </a>
+    </aside>
+
+    <!-- Bottom Controls & Hints -->
+    <footer class="bottom-bar">
+      <div class="bottom-left-group">
+        <div class="bottom-nav-arrows">
+          <button class="circle-btn" id="camAnglePrev" title="Previous Perspective" aria-label="Previous Perspective">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="circle-btn" id="camAngleNext" title="Next Perspective" aria-label="Next Perspective">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+          <span class="perspective-badge" id="camAngleName">VIEW: OVERVIEW</span>
+        </div>
+
+        <!-- Interactive Engineering Manifesto Status Chip & Popover -->
+        <div class="manifesto-chip-wrapper" id="manifestoChipWrapper">
+          <button class="manifesto-chip-btn" id="manifestoChipBtn" title="Click to view Software Engineering Philosophy">
+            <span class="chip-status-dot"></span>
+            <svg class="chip-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="6" y1="3" x2="6" y2="15"/>
+              <circle cx="18" cy="6" r="3"/>
+              <circle cx="6" cy="18" r="3"/>
+              <path d="M18 9a9 9 0 0 1-9 9"/>
+            </svg>
+            <span class="chip-text">MANIFESTO</span>
+          </button>
+
+          <div class="manifesto-popover" id="manifestoPopover">
+            <div class="popover-header">
+              <div class="popover-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                <span>SOFTWARE ENGINEERING</span>
+              </div>
+              <button class="popover-close-btn" id="manifestoPopoverClose" aria-label="Close manifesto">&times;</button>
+            </div>
+            <div class="popover-body">
+              <blockquote class="manifesto-quote">“Why FOSS needs gardeners, not influencers”</blockquote>
+              <p class="manifesto-explanation">
+                Software engineering thrives on quiet craftsmanship over viral hype — tending resilient codebases, pruning tech debt, and stewarding reliable dependencies that real systems depend on.
+              </p>
+            </div>
+            <div class="popover-footer">
+              <button class="popover-action-link" id="manifestoReadMore">
+                <span>Explore philosophy in Archive</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-center-action">
+        <button class="hero-action-pill" id="centerActionBtn">
+          <span class="pill-sparkle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
+          </span>
+          <span id="centerActionText">Click mechanical keys or press [A-Z] for tactile switch thock</span>
+        </button>
+      </div>
+
+      <div class="bottom-quick-actions">
+        <button class="solid-pill-btn" id="openDrawerBtn">
+          <span>Curator Archive</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </footer>
+
+    <!-- Interactive Drawer Modal (Swiss Curator Archive) -->
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <div class="drawer-modal" id="drawerModal">
+      <div class="drawer-header">
+        <div class="drawer-tabs">
+          <button class="tab-btn active" data-tab="tab-about">About</button>
+          <button class="tab-btn" data-tab="tab-experience">Experience</button>
+          <button class="tab-btn" data-tab="tab-certifications">Certifications</button>
+          <button class="tab-btn" data-tab="tab-skills">Stack &amp; Tools</button>
+          <button class="tab-btn" data-tab="tab-contact">Contact</button>
+        </div>
+        <button class="close-btn" id="closeDrawer" aria-label="Close Curator Archive">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <!-- Tab: About -->
+        <div class="tab-content active" id="tab-about">
+          <div class="drawer-hero-bio">
+            <span class="curator-meta">ARCHIVE ID: TRIDENT-2026 / SOFTWARE B</span>
+            <h2>Trident (Đặng Phước Trí)</h2>
+            <p class="drawer-tagline">Full-stack Developer &amp; Visual Designer • Software Craftsmanship</p>
+            <p class="drawer-desc">
+              Passionate about building robust applications across backend, frontend, cloud, and DevOps.
+              I focus on performance, scalability, and creating solutions that drive real impact.
+              Bridging the refined aesthetic eye of an FPT Visual Designer with the structural rigor of enterprise cloud architecture.
+            </p>
+
+            <div class="philosophy-quote-card">
+              <div class="philosophy-header-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+                <span>SOFTWARE ENGINEERING MANIFESTO</span>
+              </div>
+              <p>“Why FOSS needs gardeners, not influencers”</p>
+              <span class="quote-sub">A software engineer's discipline: nurturing codebase health through patient maintenance, refactoring technical debt, and building resilient systems over hype.</span>
+            </div>
+
+            <div class="hobby-pills">
+              <span class="hobby-pill">
+                <span class="pill-icon-box piano-pill-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="4" x2="7" y2="13"/><line x1="11" y1="4" x2="11" y2="13"/><line x1="15" y1="4" x2="15" y2="13"/><line x1="3" y1="13" x2="21" y2="13"/></svg>
+                </span>
+                <span>Piano Acoustic &amp; Tactile Keys</span>
+              </span>
+              <span class="hobby-pill">
+                <span class="pill-icon-box sport-pill-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                </span>
+                <span>Football Endurance</span>
+              </span>
+              <span class="hobby-pill">
+                <span class="pill-icon-box craft-pill-icon">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+                </span>
+                <span>Code Craftsmanship &amp; FOSS Maintainer</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Experience -->
+        <div class="tab-content" id="tab-experience">
+          <span class="curator-meta">CAREER MILESTONES / FPT CORPORATION</span>
+          <h2>Work Experiences</h2>
+          <div class="exp-timeline">
+            <div class="timeline-item">
+              <div class="timeline-head">
+                <span class="timeline-role">Visual Designer</span>
+                <span class="timeline-company">FPT - NS</span>
+                <span class="timeline-date">May 2025 — Present</span>
+              </div>
+              <div class="timeline-project">Insurance Online</div>
+              <p class="timeline-text">
+                Working as a visual designer here, worked on many products and services and learned a lot about design standards. Worked on many apps and services in a very short period of time. Leading online insurance services, streamlining high-trust user onboarding flows, and standardizing enterprise product UX.
+              </p>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-head">
+                <span class="timeline-role">Visual Designer</span>
+                <span class="timeline-company">FPT - PVS</span>
+                <span class="timeline-date">Apr 2023 — May 2025</span>
+              </div>
+              <div class="timeline-project">Home Closing Mortgage</div>
+              <p class="timeline-text">
+                Working as a visual designer here, worked on many products and services and learned a lot about design standards. Worked on many apps and services in a very short period of time. Designed digital mortgage closing services and complex financial products.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Certifications -->
+        <div class="tab-content" id="tab-certifications">
+          <span class="curator-meta">CREDENTIALS / CLOUD &amp; AI AGENTS</span>
+          <h2>Professional Certifications</h2>
+          <div class="cert-grid">
+            <div class="cert-card">
+              <div class="cert-card-header">
+                <span class="cert-badge cloud-badge">CLOUD</span>
+                <span class="cert-code">AZ-900</span>
+              </div>
+              <h3>Microsoft Azure Cloud Fundamental</h3>
+              <p>Microsoft Certified Cloud Architecture, Infrastructure &amp; Security Services</p>
+            </div>
+
+            <div class="cert-card">
+              <div class="cert-card-header">
+                <span class="cert-badge ai-badge">AGENTIC AI</span>
+                <span class="cert-code">AI-103</span>
+              </div>
+              <h3>Develop AI Apps and Agents on Azure</h3>
+              <p>Azure AI Foundry, Semantic Search, Autonomous Agent Workflows &amp; LLM Orchestration</p>
+            </div>
+
+            <div class="cert-card">
+              <div class="cert-card-header">
+                <span class="cert-badge arch-badge">SOLUTIONS ARCH</span>
+                <span class="cert-code">AB-100</span>
+              </div>
+              <h3>Agentic AI Business Solutions Architect</h3>
+              <p>Autonomous Agents, Enterprise AI Workflows &amp; Multi-Agent System Integration</p>
+            </div>
+
+            <div class="cert-card">
+              <div class="cert-card-header">
+                <span class="cert-badge dev-badge">PAIR PROGRAMMING</span>
+                <span class="cert-code">GB-300</span>
+              </div>
+              <h3>GitHub Copilot Certified</h3>
+              <p>AI Pair Programming, Developer Productivity &amp; Intelligent Code Generation</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Skills & Tools -->
+        <div class="tab-content" id="tab-skills">
+          <span class="curator-meta">TECH STACK / NOTION DATABASES</span>
+          <h2>Technical Ecosystem</h2>
+          <div class="skill-category">
+            <h3>Core Engineering &amp; Roles</h3>
+            <div class="pill-cloud">
+              <span class="tag-pill highlight-pill">
+                <svg class="badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>Azure Cloud</span>
+              </span>
+              <span class="tag-pill highlight-pill">
+                <svg class="badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>ASP.NET Core</span>
+              </span>
+              <span class="tag-pill highlight-pill">
+                <svg class="badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>Docker &amp; Containers</span>
+              </span>
+              <span class="tag-pill">Kubernetes</span>
+              <span class="tag-pill">Linux Systems</span>
+              <span class="tag-pill">SQL Database</span>
+              <span class="tag-pill">Azure OpenAI</span>
+              <span class="tag-pill">DevOps Engineer</span>
+              <span class="tag-pill">Software Engineer</span>
+              <span class="tag-pill">Web Designing</span>
+              <span class="tag-pill">English (Professional)</span>
+            </div>
+          </div>
+
+          <div class="skill-category" style="margin-top: 28px;">
+            <h3>Tools by Expertise Level</h3>
+            <div class="tools-level-matrix">
+              <div class="level-group">
+                <span class="level-title expert-title">EXPERT</span>
+                <div class="level-items">
+                  <span class="tool-badge expert-badge">Visual Studio</span>
+                  <span class="tool-badge expert-badge">Microsoft Azure</span>
+                </div>
+              </div>
+
+              <div class="level-group">
+                <span class="level-title inter-title">INTERMEDIATE</span>
+                <div class="level-items">
+                  <span class="tool-badge">Docker Desktop</span>
+                  <span class="tool-badge">Postman</span>
+                  <span class="tool-badge">GitHub</span>
+                  <span class="tool-badge">Cursor AI</span>
+                  <span class="tool-badge">ChatGPT</span>
+                  <span class="tool-badge">Warp Terminal</span>
+                  <span class="tool-badge">Jira</span>
+                  <span class="tool-badge">Notion</span>
+                  <span class="tool-badge">Teams</span>
+                  <span class="tool-badge">Office Tools</span>
+                </div>
+              </div>
+
+              <div class="level-group">
+                <span class="level-title begin-title">BEGINNER / EXPLORING</span>
+                <div class="level-items">
+                  <span class="tool-badge">AWS</span>
+                  <span class="tool-badge">Hugging Face</span>
+                  <span class="tool-badge">LM Studio</span>
+                  <span class="tool-badge">OpenClaw</span>
+                  <span class="tool-badge">Copilot</span>
+                  <span class="tool-badge">Slack</span>
+                  <span class="tool-badge">Shortcut</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Contact -->
+        <div class="tab-content" id="tab-contact">
+          <span class="curator-meta">DIRECT COMMUNICATON / VIETNAM</span>
+          <h2>Get In Touch</h2>
+          <div class="contact-details">
+            <div class="contact-item">
+              <span class="contact-label">Direct Email</span>
+              <a href="mailto:tridp.it@outlook.com" class="contact-value">tridp.it@outlook.com</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Phone</span>
+              <a href="tel:+84844822659" class="contact-value">+84 844 822 659</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-label">Socials &amp; Profiles</span>
+              <div class="social-links-drawer">
+                <a href="https://azharahmad.com" target="_blank" rel="noopener">
+                  <span>GitHub (tridentsof)</span>
+                  <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/tri-dang-phuoc-trident-85b066244/" target="_blank" rel="noopener">
+                  <span>LinkedIn</span>
+                  <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
+                </a>
+                <a href="https://www.facebook.com/tdproducer/" target="_blank" rel="noopener">
+                  <span>Facebook</span>
+                  <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Micro Toast -->
+    <div id="interactionToast" class="interaction-toast"></div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
