@@ -33,8 +33,8 @@ export const translations = {
     // Manifesto Popover
     manifesto_chip_text: "TRIẾT LÝ KỸ THUẬT",
     manifesto_badge: "KIẾN TRÚC PHẦN MỀM",
-    manifesto_quote: "“Kiến trúc bền vững vượt lên trào lưu ngắn hạn”",
-    manifesto_desc: "Kỹ thuật phần mềm phát triển nhờ sự cẩn trọng và chuẩn mực bền vững — thiết kế ranh giới nghiệp vụ mạch lạc (DDD), làm chủ luồng xử lý phức tạp và xây dựng hệ thống chịu tải cao đồng hành cùng sự tăng trưởng doanh nghiệp.",
+    manifesto_quote: `“<a href="https://ficd.sh/blog/your-project-sucks/#" target="_blank" rel="noopener" class="manifesto-source-link">why FOSS needs gardeners, not influencers</a>”`,
+    manifesto_desc: "Lấy cảm hứng từ bài luận về văn hóa phần mềm: Mã nguồn là một khu vườn chung cần những người làm vườn âm thầm nhổ cỏ dại, dọn dẹp nợ kỹ thuật và gìn giữ giá trị thực chất — thay vì những influencers chỉ biểu diễn hào nhoáng, thổi phồng dự án theo trend mà thiếu đi chiều sâu giải quyết bài toán thật.",
     manifesto_read_more: "Khám phá triết lý trong Hồ Sơ",
 
     // Drawer Tabs
@@ -50,9 +50,10 @@ export const translations = {
     about_tagline: "Solution Architect &amp; Engineering Lead • Chuyên sâu InsurTech &amp; MarTech",
     about_desc: "Hơn 5 năm kinh nghiệm thực chiến trong việc thiết kế và phát triển các hệ thống quy mô lớn. Xuất phát điểm vững chắc từ nền tảng giao dịch bất động sản và chứng thực hợp đồng điện tử pháp lý, hiện tại tôi tập trung vào vai trò Solution Architect &amp; Engineering Lead cho hệ thống Bảo hiểm Trực tuyến (InsurTech) và Động cơ Tăng trưởng Tiếp thị số (MarTech) với khả năng tiếp nhận dữ liệu lead thời gian thực, tích hợp sâu Google/Meta Ads và pipeline tự động hóa loại trừ lead thông minh.",
     about_manifesto_badge: "TUYÊN NGÔN KIẾN TRÚC HỆ THỐNG",
-    about_manifesto_title: "“Tại sao mã nguồn cần người làm vườn, không phải người tạo trend”",
-    about_manifesto_desc: "Kỷ luật của người làm kiến trúc: duy trì sức khỏe hệ thống qua việc kiên trì xử lý nợ kỹ thuật, phân tách ranh giới nghiệp vụ chuẩn xác (Domain-Driven Design) và xây dựng nền móng vững chắc thay vì chạy theo hào nhoáng nhất thời.",
-    hobby_piano: "Piano Acoustic &amp; Phím Cơ",
+    about_manifesto_title: `“<a href="https://ficd.sh/blog/your-project-sucks/#" target="_blank" rel="noopener" class="manifesto-source-link">why FOSS needs gardeners, not influencers</a>”`,
+    about_manifesto_desc: "Kỷ luật của người làm kiến trúc: duy trì sức khỏe hệ thống như chăm sóc một khu vườn — kiên trì xử lý nợ kỹ thuật, phân tách ranh giới nghiệp vụ chuẩn xác (Domain-Driven Design) và xây dựng nền móng vững chắc giải quyết bài toán thật thay vì chạy theo hào nhoáng nhất thời.",
+    hobby_photo_vlog: "Nhiếp Ảnh &amp; Quay Vlog Cinematic",
+    hobby_piano: "Piano Acoustic",
     hobby_football: "Bóng Đá &amp; Sức Bền",
     hobby_craft: "Nghệ Thuật Mã Nguồn &amp; Kiến Trúc Phân Tán",
 
@@ -147,8 +148,8 @@ export const translations = {
     // Manifesto Popover
     manifesto_chip_text: "MANIFESTO",
     manifesto_badge: "SOFTWARE ENGINEERING",
-    manifesto_quote: "“Resilient Architectures over Quick Hype”",
-    manifesto_desc: "Software engineering thrives on quiet craftsmanship — establishing clean domain boundaries (DDD), taming high-complexity workflows, and building high-availability architectures that power long-term business growth.",
+    manifesto_quote: `“<a href="https://ficd.sh/blog/your-project-sucks/#" target="_blank" rel="noopener" class="manifesto-source-link">why FOSS needs gardeners, not influencers</a>”`,
+    manifesto_desc: "Inspired by the essay on software culture: Codebases are a shared commons requiring patient 'gardeners' to weed out technical debt and nurture real substance — rather than 'influencers' performing for hype and attention without real engineering depth.",
     manifesto_read_more: "Explore philosophy in Archive",
 
     // Drawer Tabs
@@ -164,9 +165,10 @@ export const translations = {
     about_tagline: "Solution Architect &amp; Engineering Lead • InsurTech &amp; MarTech Specialist",
     about_desc: "Over 5 years of rigorous engineering experience architecting and delivering high-scale enterprise systems. Anchored by a strong foundation in digital mortgage closing and certified electronic contract platforms, I currently serve as Solution Architect &amp; Engineering Lead for Online Insurance (InsurTech) and MarTech Growth Engines, featuring real-time lead ingestion from 3rd-party aggregators, deep Google/Meta Ads integrations, and automated lead suppression pipelines.",
     about_manifesto_badge: "ENTERPRISE ARCHITECTURE MANIFESTO",
-    about_manifesto_title: "“Why Codebases Need Gardeners, Not Influencers”",
-    about_manifesto_desc: "An architect's discipline: nurturing codebase health through patient maintenance, refactoring technical debt, establishing clear bounded contexts, and building resilient systems over transient hype.",
-    hobby_piano: "Piano Acoustic &amp; Tactile Keys",
+    about_manifesto_title: `“<a href="https://ficd.sh/blog/your-project-sucks/#" target="_blank" rel="noopener" class="manifesto-source-link">why FOSS needs gardeners, not influencers</a>”`,
+    about_manifesto_desc: "An architect's discipline: nurturing codebase health through patient maintenance, refactoring technical debt, establishing clear bounded contexts (DDD), and building resilient systems that solve real problems over transient hype.",
+    hobby_photo_vlog: "Photography &amp; Cinematic Vlogging",
+    hobby_piano: "Acoustic Piano",
     hobby_football: "Football Endurance",
     hobby_craft: "Code Craftsmanship &amp; Distributed Arch",
 
@@ -235,8 +237,8 @@ const STORAGE_KEY = 'trident_portfolio_lang';
 export class I18nManager {
   constructor() {
     const saved = localStorage.getItem(STORAGE_KEY);
-    // Default to VI if saved or Vietnamese browser, otherwise EN
-    this.currentLang = saved || (navigator.language && navigator.language.startsWith('vi') ? 'vi' : 'en');
+    // Ensure default language is English (EN)
+    this.currentLang = saved === 'vi' ? 'vi' : 'en';
     this.listeners = [];
   }
 

@@ -846,6 +846,11 @@ html, body {
   flex-shrink: 0;
 }
 
+.camera-pill-icon {
+  background: rgba(225, 29, 72, 0.12);
+  color: #e11d48;
+}
+
 .piano-pill-icon {
   background: rgba(212, 163, 115, 0.22);
   color: #9d6431;
@@ -864,6 +869,27 @@ html, body {
 .garden-pill-icon {
   background: rgba(129, 178, 154, 0.28);
   color: #266348;
+}
+
+.manifesto-source-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
+  transition: all 0.2s ease;
+}
+
+.manifesto-source-link:hover {
+  color: #ffd166;
+  text-decoration-style: solid;
+}
+
+.philosophy-quote-card .manifesto-source-link {
+  color: #1a2233;
+}
+
+.philosophy-quote-card .manifesto-source-link:hover {
+  color: var(--accent-blue);
 }
 
 /* Experience Timeline */

@@ -11,18 +11,21 @@
 <p align="center">
   <a href="https://github.com/tridentsof"><img src="https://img.shields.io/badge/GitHub-tridentsof-181717?style=for-the-badge&logo=github" alt="GitHub" /></a>
   <a href="https://www.linkedin.com/in/tri-dang-phuoc-trident-85b066244/"><img src="https://img.shields.io/badge/LinkedIn-Tri%20Dang%20Phuoc-0A66C2?style=for-the-badge&logo=linkedin" alt="LinkedIn" /></a>
+  <a href="https://www.facebook.com/tdproducer"><img src="https://img.shields.io/badge/Facebook-tdproducer-1877F2?style=for-the-badge&logo=facebook&logoColor=white" alt="Facebook" /></a>
   <a href="mailto:tridp.it@outlook.com"><img src="https://img.shields.io/badge/Email-tridp.it%40outlook.com-0078D4?style=for-the-badge&logo=microsoftoutlook&logoColor=white" alt="Email" /></a>
-  <img src="https://img.shields.io/badge/Three.js-r170-black?style=for-the-badge&logo=three.js&logoColor=white" alt="Three.js" />
-  <img src="https://img.shields.io/badge/Vite-6.0-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
 </p>
 
 ---
 
 ## 🏛️ Về Kiến Trúc Sư — Trident (Đặng Phước Trí)
 
-> *“Kiến trúc bền vững vượt lên trào lưu ngắn hạn — Tại sao mã nguồn cần người làm vườn, không phải người tạo trend.”*
+> ### *“[why FOSS needs gardeners, not influencers](https://ficd.sh/blog/your-project-sucks/#)”*
+> *“Tại sao mã nguồn mở cần người làm vườn, không phải người tạo trend.”*
 
-Tôi là **Đặng Phước Trí (Trident)**, hiện đảm nhiệm vai trò **Solutions Architect & Engineering Lead**. Với hơn 5 năm kinh nghiệm thực chiến trong việc thiết kế và vận hành các hệ thống phân tán quy mô lớn, tôi tập trung vào việc kiến tạo các giải pháp phần mềm có độ tin cậy cao, phân định ranh giới nghiệp vụ mạch lạc (Domain-Driven Design), và chuyển đổi linh hoạt theo bài toán tăng trưởng của doanh nghiệp.
+Tôi là **Đặng Phước Trí (Trident)**, hiện đảm nhiệm vai trò **Solutions Architect & Engineering Lead**. Với hơn 5 năm kinh nghiệm thực chiến trong việc thiết kế và vận hành các hệ thống phân tán quy mô lớn, tôi theo đuổi triết lý:
+* **Thực chất thay vì trình diễn (Substance vs. Performance)**: Tập trung giải quyết bài toán thật (*problem-first*), loại bỏ tâm lý thổi phồng công nghệ theo trend (*release-first / hype*).
+* **Tư duy người làm vườn (The Gardener Mentality)**: Hệ thống phần mềm như một khu vườn chung cần sự chăm sóc kiên trì — âm thầm dọn dẹp nợ kỹ thuật (*Technical Debt*), phân định ranh giới nghiệp vụ mạch lạc (*Domain-Driven Design*), và bảo đảm tính sẵn sàng cao (*High Availability*).
+* **Đam mê cá nhân**: Nhiếp ảnh đường phố & chân dung (Photography), Quay vlog cinematic, Piano acoustic, Bóng đá rèn luyện sức bền và Nghệ thuật kiến trúc phân tán.
 
 ### 💼 Dấu Mốc Sự Nghiệp (Career Milestones)
 
@@ -86,21 +89,14 @@ timeline
 
 ---
 
-## 🎮 Dự Án 3D Portfolio Này Có Gì Đặc Sắc?
+## 🚀 Dự Án Trọng Điểm Doanh Nghiệp (Featured Enterprise Systems)
 
-Kho mã nguồn này là không gian tương tác 3D cá nhân được xây dựng trên nền tảng WebGL / Three.js và Vite:
-
-* 🪐 **Không gian 3D tương tác sống động**: Dựng scene 3D với hệ thống ánh sáng chân thực (Directional Light với Soft Shadow, Ambient & Spotlights).
-* 💡 **3 Chế độ ánh sáng thời gian thực**:
-  - *Nắng Sớm Ban Mai (Morning Sunlight)*: Tone xanh mát trong trẻo.
-  - *Hoàng Hôn Rực Rỡ (Golden Hour)*: Ánh sáng chiều ấm áp, đổ bóng dài.
-  - *Đèn Phòng Thu Ấm Áp (Studio Warmth)*: Không gian làm việc tập trung ban đêm.
-* ⌨️ **Mô phỏng Bàn phím cơ & Âm thanh Thock**:
-  - Bấm phím trực tiếp trên mô hình 3D hoặc gõ phím vật lý bất kỳ `[A-Z]` để nghe âm thanh gõ switch cơ thock được tổng hợp qua Web Audio API.
-* 🌐 **Kiến trúc Đa ngôn ngữ (i18n Engine)**:
-  - Hỗ trợ mượt mà cả Tiếng Việt (VI) và Tiếng Anh (EN), tự động ghi nhớ tùy chọn vào `localStorage`.
-* 📁 **Curator Archive Drawer**:
-  - Ngăn kéo hồ sơ năng lực thiết kế theo phong cách Glassmorphism tinh tế, tra cứu nhanh tiểu sử, kinh nghiệm, chứng chỉ và kỹ thuật.
+* 🛡️ **Hệ Thống Bảo Hiểm Trực Tuyến & MarTech Lead Engine (FPT - NS)**:
+  - Chủ trì kiến trúc giải pháp hệ thống phân phối bảo hiểm số (InsurTech) và động cơ điều phối Lead tiếp thị số thời gian thực.
+  - Xây dựng luồng tiếp nhận lead đa đối tác (3rd-party aggregators), tích hợp sâu Server-side Conversion APIs (Meta/Google CAPI) và cơ chế Lead Suppression chống trùng lặp dữ liệu tài chính trên Microsoft Azure.
+* 📜 **Home Closing Mortgage & Chứng Thực Hợp Đồng Điện Tử (FPT - PVS)**:
+  - Phát triển nền tảng hoàn tất thủ tục thế chấp bất động sản số (Digital Mortgage Closing).
+  - Triển khai luồng ký số pháp lý cao (e-Signature), công chứng trực tuyến từ xa (Remote Online Notarization - RON) và vết kiểm toán bất biến (Audit Trail).
 
 ---
 
@@ -126,7 +122,7 @@ npm install
 npm run dev
 ```
 
-Truy cập `http://localhost:5173` để tương tác trực tiếp với không gian 3D.
+Truy cập `http://localhost:5173` để trải nghiệm trực tiếp không gian làm việc số.
 
 ### 3. Đóng gói triển khai (Build)
 
@@ -150,11 +146,12 @@ Thư mục `dist/` sẽ sẵn sàng để deploy lên GitHub Pages, Vercel, Netl
 
 Tôi luôn sẵn sàng trao đổi và thảo luận về các cơ hội tư vấn giải pháp kiến trúc hệ thống **InsurTech / MarTech**, kỹ thuật phân tán quy mô lớn hoặc vai trò **Lead Engineering**:
 
-- 📍 **Địa điểm:** Việt Nam
+- 📍 **Địa điểm:** Việt Nam (GMT+7) / Remote Global
 - 📧 **Email Trực Tiếp:** [tridp.it@outlook.com](mailto:tridp.it@outlook.com)
 - 📱 **Số Điện Thoại:** [+84 844 822 659](tel:+84844822659)
 - 💼 **LinkedIn:** [Tri Dang Phuoc (Trident)](https://www.linkedin.com/in/tri-dang-phuoc-trident-85b066244/)
 - 🐙 **GitHub:** [@tridentsof](https://github.com/tridentsof)
+- 🌐 **Facebook:** [https://www.facebook.com/tdproducer](https://www.facebook.com/tdproducer)
 
 <p align="center">
   <sub>Thiết kế và kiến tạo bởi <b>Trident (Đặng Phước Trí)</b> • 2026</sub>

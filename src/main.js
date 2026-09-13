@@ -35,6 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  // Set initial camera perspective name based on current lang
+  updateActivePerspectiveName();
+
   // 2. Initialize Fullscreen 3D Scene
   const canvasContainer = document.getElementById('canvas-container');
   let deskScene = null;
@@ -105,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lang = i18n.getLang();
     mobileLightName.textContent = lightingLabels[currentMode][lang] || lightingLabels[currentMode].vi;
   };
+  updateMobileLightLabel();
 
   lightBtns.forEach(btn => {
     btn.addEventListener('click', () => {
