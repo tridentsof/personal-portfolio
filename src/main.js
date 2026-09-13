@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       synth.playTactileClick(1250);
       showToast(nextLang === 'vi' ? 'Đã chuyển sang Tiếng Việt' : 'Switched to English', 'sparkle');
       updateActivePerspectiveName();
+      updateMobileLightLabel();
     });
   }
 
@@ -86,13 +87,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 240);
   });
 
-  // 5. Lighting Rig Presets Switcher
+  // 5. Lighting Rig Presets Switcher (Desktop & Mobile)
   const lightBtns = document.querySelectorAll('.light-preset-btn');
+  const mobileLightToggle = document.getElementById('mobileLightToggle');
+  const mobileLightName = document.getElementById('mobileLightName');
+  const lightingModes = ['morning', 'golden', 'studio'];
+  const lightingLabels = {
+    morning: { vi: 'SÁNG', en: 'MORN' },
+    golden: { vi: 'CHIỀU', en: 'GOLD' },
+    studio: { vi: 'ĐÈN', en: 'STUD' }
+  };
+  let currentLightIndex = 0;
+
+  const updateMobileLightLabel = () => {
+    if (!mobileLightName) return;
+    const currentMode = lightingModes[currentLightIndex];
+    const lang = i18n.getLang();
+    mobileLightName.textContent = lightingLabels[currentMode][lang] || lightingLabels[currentMode].vi;
+  };
+
   lightBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       lightBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const mode = btn.dataset.light;
+      currentLightIndex = Math.max(0, lightingModes.indexOf(mode));
+      updateMobileLightLabel();
       if (deskScene && deskScene.setLightingMode) {
         deskScene.setLightingMode(mode);
         synth.playTactileClick(1150);
@@ -103,6 +123,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  if (mobileLightToggle) {
+    mobileLightToggle.addEventListener('click', () => {
+      currentLightIndex = (currentLightIndex + 1) % lightingModes.length;
+      const nextMode = lightingModes[currentLightIndex];
+      updateMobileLightLabel();
+
+      lightBtns.forEach(b => {
+        if (b.dataset.light === nextMode) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+
+      if (deskScene && deskScene.setLightingMode) {
+        deskScene.setLightingMode(nextMode);
+        synth.playTactileClick(1150);
+        showToast(
+          i18n.getLang() === 'vi' ? `Ánh Sáng: ${nextMode.toUpperCase()} đã kích hoạt` : `Studio Lighting: ${nextMode.toUpperCase()} applied`,
+          'light'
+        );
+      }
+    });
+  }
 
   // 6. Drawer Modal Controller (Single Page navigation)
   const drawerModal = document.getElementById('drawerModal');
@@ -163,10 +205,59 @@ document.addEventListener('DOMContentLoaded', () => {
   if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
   if (openDrawerBtn) openDrawerBtn.addEventListener('click', () => openDrawerWithTab('tab-about'));
 
+  // Mobile Bottom Sheet Pull-to-Dismiss Gesture
+  const drawerDragHandle = document.getElementById('drawerDragHandle');
+  if (drawerModal) {
+    let sheetStartY = 0;
+    let sheetCurrentY = 0;
+    let isDraggingSheet = false;
+
+    const onSheetTouchStart = (e) => {
+      if (window.innerWidth > 768) return;
+      sheetStartY = e.touches[0].clientY;
+      sheetCurrentY = sheetStartY;
+      isDraggingSheet = true;
+      drawerModal.style.transition = 'none';
+    };
+
+    const onSheetTouchMove = (e) => {
+      if (!isDraggingSheet || window.innerWidth > 768) return;
+      sheetCurrentY = e.touches[0].clientY;
+      const diffY = sheetCurrentY - sheetStartY;
+      if (diffY > 0) {
+        // Dragging downward
+        drawerModal.style.transform = `translateY(${diffY}px)`;
+      }
+    };
+
+    const onSheetTouchEnd = () => {
+      if (!isDraggingSheet || window.innerWidth > 768) return;
+      isDraggingSheet = false;
+      drawerModal.style.transition = '';
+      const diffY = sheetCurrentY - sheetStartY;
+      if (diffY > 80) {
+        drawerModal.style.transform = '';
+        closeDrawer();
+      } else {
+        drawerModal.style.transform = '';
+      }
+      sheetStartY = 0;
+      sheetCurrentY = 0;
+    };
+
+    if (drawerDragHandle) {
+      drawerDragHandle.addEventListener('touchstart', onSheetTouchStart, { passive: true });
+      drawerDragHandle.addEventListener('touchmove', onSheetTouchMove, { passive: true });
+      drawerDragHandle.addEventListener('touchend', onSheetTouchEnd, { passive: true });
+    }
+  }
+
   tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       openDrawerWithTab(btn.dataset.tab);
     });
+    btn.addEventListener('pointerdown', (e) => e.stopPropagation());
   });
 
   const navButtons = document.querySelectorAll('.nav-btn');
@@ -180,10 +271,12 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   navButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
       const target = btn.dataset.target;
       if (navMap[target]) navMap[target]();
     });
+    btn.addEventListener('pointerdown', (e) => e.stopPropagation());
   });
 
   // Camera Switch Buttons
@@ -198,18 +291,33 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  if (camAnglePrev) camAnglePrev.addEventListener('click', () => updateCamAngle(-1));
-  if (camAngleNext) camAngleNext.addEventListener('click', () => updateCamAngle(1));
+  if (camAnglePrev) {
+    camAnglePrev.addEventListener('click', (e) => { e.stopPropagation(); updateCamAngle(-1); });
+    camAnglePrev.addEventListener('pointerdown', (e) => e.stopPropagation());
+  }
+  if (camAngleNext) {
+    camAngleNext.addEventListener('click', (e) => { e.stopPropagation(); updateCamAngle(1); });
+    camAngleNext.addEventListener('pointerdown', (e) => e.stopPropagation());
+  }
 
   // Dock Buttons
   const menuToggle = document.getElementById('menuToggle');
-  if (menuToggle) menuToggle.addEventListener('click', () => openDrawerWithTab('tab-about'));
+  if (menuToggle) {
+    menuToggle.addEventListener('click', (e) => { e.stopPropagation(); openDrawerWithTab('tab-about'); });
+    menuToggle.addEventListener('pointerdown', (e) => e.stopPropagation());
+  }
 
   const quickSearch = document.getElementById('quickSearch');
-  if (quickSearch) quickSearch.addEventListener('click', () => openDrawerWithTab('tab-skills'));
+  if (quickSearch) {
+    quickSearch.addEventListener('click', (e) => { e.stopPropagation(); openDrawerWithTab('tab-skills'); });
+    quickSearch.addEventListener('pointerdown', (e) => e.stopPropagation());
+  }
 
   const codeViewToggle = document.getElementById('codeViewToggle');
-  if (codeViewToggle) codeViewToggle.addEventListener('click', () => openDrawerWithTab('tab-skills'));
+  if (codeViewToggle) {
+    codeViewToggle.addEventListener('click', (e) => { e.stopPropagation(); openDrawerWithTab('tab-skills'); });
+    codeViewToggle.addEventListener('pointerdown', (e) => e.stopPropagation());
+  }
 
   // 7. Engineering Manifesto Status Chip & Popover Controller
   const manifestoChipBtn = document.getElementById('manifestoChipBtn');
@@ -306,6 +414,13 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('trident-open-drawer', (e) => {
     if (e.detail && e.detail.tab) {
       openDrawerWithTab(e.detail.tab);
+    }
+  });
+
+  window.addEventListener('trident-cam-switch', (e) => {
+    if (e.detail && e.detail.section) {
+      currentActiveSection = e.detail.section;
+      updateActivePerspectiveName();
     }
   });
 

@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>TRIDENT — Solution Architect &amp; Engineering Lead</title>
   <meta name="description" content="TRIDENT (Đặng Phước Trí) — Solution Architect &amp; Engineering Lead. InsurTech, MarTech, Azure Cloud Architecture, Distributed Systems.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,9 +32,20 @@
         <button class="nav-btn" data-target="skills" data-i18n="nav_stack">Kỹ năng</button>
         <button class="nav-btn" data-target="contact" data-i18n="nav_contact">Liên hệ</button>
 
+        <!-- Mobile Light Preset Switcher (cycles through morning, golden, studio) -->
+        <button id="mobileLightToggle" class="pill-btn mobile-light-pill" title="Đổi ánh sáng Studio / Cycle Studio Lighting" aria-label="Change Studio Lighting">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <span class="mobile-light-name" id="mobileLightName">SÁNG</span>
+        </button>
+
         <!-- Bilingual Language Toggle -->
         <button id="langToggle" class="pill-btn lang-pill" title="Chuyển đổi ngôn ngữ / Switch Language" aria-label="Toggle Language">
-          <span id="langFlag" class="lang-flag">🇻🇳</span>
+          <span id="langFlag" class="lang-flag">
+            <svg class="lang-flag-svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#da251d"/><polygon points="12,4.5 14.3,9.2 19.5,9.9 15.7,13.6 16.6,18.8 12,16.4 7.4,18.8 8.3,13.6 4.5,9.9 9.7,9.2" fill="#ffd100"/></svg>
+          </span>
           <span id="langText">VI</span>
         </button>
 
@@ -140,7 +151,9 @@
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
                 <span data-i18n="manifesto_badge">KIẾN TRÚC PHẦN MỀM</span>
               </div>
-              <button class="popover-close-btn" id="manifestoPopoverClose" aria-label="Close manifesto">&times;</button>
+              <button class="popover-close-btn" id="manifestoPopoverClose" aria-label="Close manifesto">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
             </div>
             <div class="popover-body">
               <blockquote class="manifesto-quote" data-i18n="manifesto_quote">“Kiến trúc bền vững vượt lên trào lưu ngắn hạn”</blockquote>
@@ -178,6 +191,7 @@
     <!-- Interactive Drawer Modal (Curator Archive) -->
     <div class="drawer-backdrop" id="drawerBackdrop"></div>
     <div class="drawer-modal" id="drawerModal">
+      <div class="drawer-drag-handle" id="drawerDragHandle" aria-hidden="true"><span></span></div>
       <div class="drawer-header">
         <div class="drawer-tabs">
           <button class="tab-btn active" data-tab="tab-about" data-i18n="tab_about">Giới thiệu</button>
@@ -271,41 +285,238 @@
         <div class="tab-content" id="tab-certifications">
           <span class="curator-meta" data-i18n="cert_meta">CHỨNG NHẬN CHUYÊN MÔN / CLOUD &amp; AGENTIC AI</span>
           <h2 data-i18n="cert_heading">Chứng Chỉ Quốc Tế</h2>
-          <div class="cert-grid">
-            <div class="cert-card">
-              <div class="cert-card-header">
-                <span class="cert-badge cloud-badge">CLOUD ARCH</span>
-                <span class="cert-code">AZ-900</span>
+          
+          <div class="ms-cert-list">
+            <!-- 1. Microsoft Certified: Azure Fundamentals (AZ-900) -->
+            <div class="ms-cert-card">
+              <div class="ms-cert-top">
+                <div class="ms-brand-badge">
+                  <div class="ms-squares">
+                    <span class="ms-sq ms-red"></span>
+                    <span class="ms-sq ms-green"></span>
+                    <span class="ms-sq ms-blue"></span>
+                    <span class="ms-sq ms-yellow"></span>
+                  </div>
+                  <span class="ms-brand-text">Microsoft</span>
+                </div>
               </div>
-              <h3 data-i18n="cert1_title">Microsoft Azure Cloud Fundamentals</h3>
-              <p data-i18n="cert1_desc">Kiến trúc đám mây Microsoft, hạ tầng bảo mật, quản trị tài nguyên và điện toán phân tán</p>
+
+              <div class="ms-cert-main">
+                <h3 class="ms-cert-recipient">Đặng Phước Trí</h3>
+                <p class="ms-cert-req" data-i18n="cert_passed">has successfully passed all requirements for</p>
+                <h4 class="ms-cert-name" data-i18n="cert1_title">Microsoft Certified: Azure Fundamentals</h4>
+              </div>
+
+              <div class="ms-cert-details">
+                <div class="ms-detail-col">
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Credential ID:</span> <strong>A3522411055305AC</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Certification number:</span> <strong>C5AB27-0A7UE5</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Earned on:</span> <strong>April 21, 2025</strong></div>
+                  <div class="ms-verifiable-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0078d4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Online Verifiable</span>
+                  </div>
+                </div>
+
+                <div class="ms-badge-col">
+                  <div class="ms-shield-badge">
+                    <div class="ms-shield-top">
+                      <span class="ms-st-brand">Microsoft</span>
+                      <span class="ms-st-sub">CERTIFIED</span>
+                    </div>
+                    <div class="ms-shield-ribbon">FUNDAMENTALS</div>
+                    <div class="ms-shield-bot">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="#ffffff"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ms-signature-col">
+                  <div class="ms-signature-wrap">
+                    <svg viewBox="0 0 160 48" width="130" height="38" fill="none" stroke="#1b1b1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 32 C25 15, 40 10, 45 25 C47 35, 35 45, 25 42 C40 40, 65 20, 75 25 C80 30, 70 40, 90 35 C100 32, 110 22, 120 28 C130 35, 125 45, 135 38" />
+                      <line x1="38" y1="18" x2="58" y2="20" />
+                    </svg>
+                  </div>
+                  <span class="ms-signer-name">Satya Narayana Nadella</span>
+                </div>
+              </div>
             </div>
 
-            <div class="cert-card">
-              <div class="cert-card-header">
-                <span class="cert-badge ai-badge">AGENTIC AI</span>
-                <span class="cert-code">AI-103</span>
+            <!-- 2. Microsoft Certified: Azure AI Engineer Associate (AI-103) -->
+            <div class="ms-cert-card">
+              <div class="ms-cert-top">
+                <div class="ms-brand-badge">
+                  <div class="ms-squares">
+                    <span class="ms-sq ms-red"></span>
+                    <span class="ms-sq ms-green"></span>
+                    <span class="ms-sq ms-blue"></span>
+                    <span class="ms-sq ms-yellow"></span>
+                  </div>
+                  <span class="ms-brand-text">Microsoft</span>
+                </div>
               </div>
-              <h3 data-i18n="cert2_title">Phát triển Ứng dụng &amp; Agent AI trên Azure</h3>
-              <p data-i18n="cert2_desc">Azure AI Foundry, Tìm kiếm ngữ nghĩa (Semantic Search), Điều phối Agent tự hành &amp; Tích hợp LLM</p>
+
+              <div class="ms-cert-main">
+                <h3 class="ms-cert-recipient">Đặng Phước Trí</h3>
+                <p class="ms-cert-req" data-i18n="cert_passed">has successfully passed all requirements for</p>
+                <h4 class="ms-cert-name" data-i18n="cert2_title">Microsoft Certified: Azure AI Engineer Associate</h4>
+              </div>
+
+              <div class="ms-cert-details">
+                <div class="ms-detail-col">
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Credential ID:</span> <strong>B7819204918231FD</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Certification number:</span> <strong>D9EF12-4B2KC9</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Earned on:</span> <strong>May 15, 2025</strong></div>
+                  <div class="ms-verifiable-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0078d4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Online Verifiable</span>
+                  </div>
+                </div>
+
+                <div class="ms-badge-col">
+                  <div class="ms-shield-badge">
+                    <div class="ms-shield-top">
+                      <span class="ms-st-brand">Microsoft</span>
+                      <span class="ms-st-sub">CERTIFIED</span>
+                    </div>
+                    <div class="ms-shield-ribbon">ASSOCIATE</div>
+                    <div class="ms-shield-bot">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="#ffffff"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ms-signature-col">
+                  <div class="ms-signature-wrap">
+                    <svg viewBox="0 0 160 48" width="130" height="38" fill="none" stroke="#1b1b1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 32 C25 15, 40 10, 45 25 C47 35, 35 45, 25 42 C40 40, 65 20, 75 25 C80 30, 70 40, 90 35 C100 32, 110 22, 120 28 C130 35, 125 45, 135 38" />
+                      <line x1="38" y1="18" x2="58" y2="20" />
+                    </svg>
+                  </div>
+                  <span class="ms-signer-name">Satya Narayana Nadella</span>
+                </div>
+              </div>
             </div>
 
-            <div class="cert-card">
-              <div class="cert-card-header">
-                <span class="cert-badge arch-badge">SOLUTIONS ARCH</span>
-                <span class="cert-code">AB-100</span>
+            <!-- 3. GitHub Copilot (GH-300) - Exact 1-1 Match -->
+            <div class="ms-cert-card">
+              <div class="ms-cert-top">
+                <div class="ms-brand-badge">
+                  <div class="ms-squares">
+                    <span class="ms-sq ms-red"></span>
+                    <span class="ms-sq ms-green"></span>
+                    <span class="ms-sq ms-blue"></span>
+                    <span class="ms-sq ms-yellow"></span>
+                  </div>
+                  <span class="ms-brand-text">Microsoft</span>
+                </div>
               </div>
-              <h3 data-i18n="cert3_title">Kiến Trúc Sư Giải Pháp Doanh Nghiệp với Agentic AI</h3>
-              <p data-i18n="cert3_desc">Hệ thống Multi-Agent tự trị, quy trình tự động hóa tác vụ nghiệp vụ và tích hợp hệ thống doanh nghiệp</p>
+
+              <div class="ms-cert-main">
+                <h3 class="ms-cert-recipient">Đặng Phước Trí</h3>
+                <p class="ms-cert-req" data-i18n="cert_passed">has successfully passed all requirements for</p>
+                <h4 class="ms-cert-name" data-i18n="cert3_title">GitHub Copilot</h4>
+              </div>
+
+              <div class="ms-cert-details">
+                <div class="ms-detail-col">
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Credential ID:</span> <strong>3A7C3643EFDBC868</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Certification number:</span> <strong>EC4D85-33E7EF</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Earned on:</span> <strong>August 4, 2025</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Expires on:</span> <strong>August 5, 2027</strong></div>
+                  <div class="ms-verifiable-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0078d4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Online Verifiable</span>
+                  </div>
+                </div>
+
+                <div class="ms-badge-col">
+                  <div class="gh-copilot-badge-wrap">
+                    <svg viewBox="0 0 96 112" width="86" height="100" class="gh-copilot-svg">
+                      <!-- Shield Dark Slate Background & Outer Border -->
+                      <path d="M 8 4 L 88 4 A 6 6 0 0 1 94 10 L 94 72 L 48 108 L 2 72 L 2 10 A 6 6 0 0 1 8 4 Z" fill="#22272e" stroke="#444c56" stroke-width="2.2" stroke-linejoin="round" />
+                      <!-- Invertocat Silhouette -->
+                      <g transform="translate(36, 12)">
+                        <path d="M 12 2 C 6.5 2 2 6.5 2 12 C 2 16.4 4.9 20.2 8.8 21.5 C 9.3 21.6 9.5 21.3 9.5 21 C 9.5 20.8 9.5 20.1 9.5 19.3 C 6.7 19.9 6.1 18 6.1 18 C 5.7 16.8 5 16.5 5 16.5 C 4.1 15.9 5.1 15.9 5.1 15.9 C 6.1 16 6.6 17 6.6 17 C 7.5 18.5 9 18.1 9.5 17.8 C 9.6 17.2 9.9 16.7 10.1 16.5 C 7.9 16.2 5.6 15.4 5.6 11.5 C 5.6 10.4 6 9.5 6.6 8.8 C 6.5 8.5 6.2 7.5 6.7 6.1 C 6.7 6.1 7.6 5.8 9.5 7.1 C 10.4 6.9 11.2 6.7 12.1 6.7 C 13 6.7 13.8 6.9 14.6 7.1 C 16.5 5.8 17.4 6.1 17.4 6.1 C 17.9 7.5 17.6 8.5 17.5 8.8 C 18.1 9.5 18.5 10.4 18.5 11.5 C 18.5 15.4 16.2 16.2 14 16.5 C 14.4 16.8 14.7 17.4 14.7 18.4 C 14.7 19.7 14.7 20.8 14.7 21 C 14.7 21.3 14.9 21.6 15.4 21.5 C 19.3 20.2 22.2 16.4 22.2 12 C 22.2 6.5 17.7 2 12 2 Z" fill="#636e7b" />
+                      </g>
+                      <!-- Typography: GitHub -->
+                      <text x="48" y="55" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12.5" font-weight="700" text-anchor="middle">GitHub</text>
+                      <!-- Typography: Copilot -->
+                      <text x="48" y="70" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12.5" font-weight="700" text-anchor="middle">Copilot</text>
+                      <!-- Typography: Certification Program (Green) -->
+                      <text x="48" y="87" fill="#2ea44f" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="6.5" font-weight="600" text-anchor="middle" letter-spacing="0.2">Certification</text>
+                      <text x="48" y="96" fill="#2ea44f" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="6.5" font-weight="600" text-anchor="middle" letter-spacing="0.2">Program</text>
+                    </svg>
+                  </div>
+                </div>
+
+                <div class="ms-signature-col">
+                  <div class="ms-signature-wrap">
+                    <svg viewBox="0 0 160 48" width="130" height="38" fill="none" stroke="#1b1b1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 32 C25 15, 40 10, 45 25 C47 35, 35 45, 25 42 C40 40, 65 20, 75 25 C80 30, 70 40, 90 35 C100 32, 110 22, 120 28 C130 35, 125 45, 135 38" />
+                      <line x1="38" y1="18" x2="58" y2="20" />
+                    </svg>
+                  </div>
+                  <span class="ms-signer-name">Satya Narayana Nadella</span>
+                </div>
+              </div>
             </div>
 
-            <div class="cert-card">
-              <div class="cert-card-header">
-                <span class="cert-badge dev-badge">PAIR PROGRAMMING</span>
-                <span class="cert-code">GB-300</span>
+            <!-- 4. Microsoft Certified: Solutions Architect Expert (AB-100) -->
+            <div class="ms-cert-card">
+              <div class="ms-cert-top">
+                <div class="ms-brand-badge">
+                  <div class="ms-squares">
+                    <span class="ms-sq ms-red"></span>
+                    <span class="ms-sq ms-green"></span>
+                    <span class="ms-sq ms-blue"></span>
+                    <span class="ms-sq ms-yellow"></span>
+                  </div>
+                  <span class="ms-brand-text">Microsoft</span>
+                </div>
               </div>
-              <h3 data-i18n="cert4_title">GitHub Copilot Certified</h3>
-              <p data-i18n="cert4_desc">Lập trình cộng tác cùng AI, tối ưu hóa hiệu suất phát triển và chuẩn mực sinh mã thông minh</p>
+
+              <div class="ms-cert-main">
+                <h3 class="ms-cert-recipient">Đặng Phước Trí</h3>
+                <p class="ms-cert-req" data-i18n="cert_passed">has successfully passed all requirements for</p>
+                <h4 class="ms-cert-name" data-i18n="cert4_title">Microsoft Certified: Solutions Architect Expert</h4>
+              </div>
+
+              <div class="ms-cert-details">
+                <div class="ms-detail-col">
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Credential ID:</span> <strong>E9401823819245CE</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Certification number:</span> <strong>F1EA45-9C8LA2</strong></div>
+                  <div class="ms-meta-line"><span class="ms-meta-lbl">Earned on:</span> <strong>June 08, 2025</strong></div>
+                  <div class="ms-verifiable-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#0078d4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>Online Verifiable</span>
+                  </div>
+                </div>
+
+                <div class="ms-badge-col">
+                  <div class="ms-shield-badge">
+                    <div class="ms-shield-top">
+                      <span class="ms-st-brand">Microsoft</span>
+                      <span class="ms-st-sub">CERTIFIED</span>
+                    </div>
+                    <div class="ms-shield-ribbon">EXPERT</div>
+                    <div class="ms-shield-bot">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="#ffffff"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ms-signature-col">
+                  <div class="ms-signature-wrap">
+                    <svg viewBox="0 0 160 48" width="130" height="38" fill="none" stroke="#1b1b1b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 32 C25 15, 40 10, 45 25 C47 35, 35 45, 25 42 C40 40, 65 20, 75 25 C80 30, 70 40, 90 35 C100 32, 110 22, 120 28 C130 35, 125 45, 135 38" />
+                      <line x1="38" y1="18" x2="58" y2="20" />
+                    </svg>
+                  </div>
+                  <span class="ms-signer-name">Satya Narayana Nadella</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

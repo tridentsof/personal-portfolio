@@ -7,7 +7,7 @@ export class CreativeDeskScene {
     this.interactiveObjects = [];
     this.mouse = new THREE.Vector2();
 
-    // Camera Focus Presets for each Section
+    // Camera Focus Presets for each Section (Desktop / Landscape)
     this.cameraFocusPoints = {
       overview: { pos: new THREE.Vector3(3.2, 4.4, 7.8), target: new THREE.Vector3(-0.3, 0.6, 0.1), name: 'Overview' },
       about: { pos: new THREE.Vector3(-1.8, 2.6, 2.0), target: new THREE.Vector3(-2.6, 1.0, -0.6), name: 'About & Philosophy' },
@@ -18,11 +18,26 @@ export class CreativeDeskScene {
       piano: { pos: new THREE.Vector3(-0.3, 2.3, 2.3), target: new THREE.Vector3(-0.3, 0.2, 0.65), name: 'Custom Keyboard' }
     };
 
+    // Camera Focus Presets optimized specifically for Portrait Mobile (9:16)
+    this.cameraFocusPointsMobile = {
+      overview: { pos: new THREE.Vector3(3.4, 5.2, 9.4), target: new THREE.Vector3(-0.1, 0.9, 0.1), name: 'Overview' },
+      about: { pos: new THREE.Vector3(-1.8, 2.9, 2.6), target: new THREE.Vector3(-2.6, 1.1, -0.6), name: 'About & Philosophy' },
+      experience: { pos: new THREE.Vector3(1.6, 2.8, 2.8), target: new THREE.Vector3(1.7, 0.3, 0.4), name: 'FPT Work Experience' },
+      certifications: { pos: new THREE.Vector3(0.0, 4.2, 2.8), target: new THREE.Vector3(0.0, 3.6, -3.0), name: 'Certifications (AZ-900 & AI)' },
+      skills: { pos: new THREE.Vector3(0.0, 2.9, 3.1), target: new THREE.Vector3(0.0, 1.7, -0.9), name: 'Tech Stack & Tools' },
+      contact: { pos: new THREE.Vector3(3.4, 3.1, 2.1), target: new THREE.Vector3(4.6, 1.55, -0.4), name: 'Contact & Radio' },
+      piano: { pos: new THREE.Vector3(-0.3, 2.6, 2.8), target: new THREE.Vector3(-0.3, 0.2, 0.65), name: 'Custom Keyboard' }
+    };
+
+    const aspect = window.innerWidth / window.innerHeight;
+    this.isMobile = aspect < 1.0 || window.innerWidth < 768;
+
     this.activeSection = 'overview';
-    this.targetCameraPos = this.cameraFocusPoints.overview.pos.clone();
-    this.currentCameraPos = this.cameraFocusPoints.overview.pos.clone();
-    this.lookAtTarget = this.cameraFocusPoints.overview.target.clone();
-    this.currentLookAt = this.cameraFocusPoints.overview.target.clone();
+    const initPt = (this.isMobile && this.cameraFocusPointsMobile.overview) ? this.cameraFocusPointsMobile.overview : this.cameraFocusPoints.overview;
+    this.targetCameraPos = initPt.pos.clone();
+    this.currentCameraPos = initPt.pos.clone();
+    this.lookAtTarget = initPt.target.clone();
+    this.currentLookAt = initPt.target.clone();
 
     this.raycaster = new THREE.Raycaster();
     this.clock = new THREE.Clock();
@@ -93,7 +108,9 @@ export class CreativeDeskScene {
     this.scene.fog = new THREE.Fog(this.lightingPresets.morning.fog, 18, 38);
 
     const aspect = window.innerWidth / window.innerHeight;
-    this.camera = new THREE.PerspectiveCamera(45, aspect, 0.1, 100);
+    this.isMobile = aspect < 1.0 || window.innerWidth < 768;
+    const initialFov = this.isMobile ? 62 : 45;
+    this.camera = new THREE.PerspectiveCamera(initialFov, aspect, 0.1, 100);
     this.camera.position.copy(this.currentCameraPos);
     this.camera.lookAt(this.lookAtTarget);
 
@@ -511,26 +528,37 @@ export class CreativeDeskScene {
       {
         id: 'az-900',
         x: -2.2,
-        title: 'AZ-900',
-        subtitle: 'MICROSOFT AZURE FUNDAMENTAL',
-        badgeColor: 0x0078d4, // Azure Blue
+        title: 'Microsoft Certified: Azure Fundamentals',
+        credentialId: 'A3522411055305AC',
+        certNumber: 'C5AB27-0A7UE5',
+        earnedDate: 'April 21, 2025',
+        badgeLevel: 'FUNDAMENTALS',
+        badgeColor: '#0078d4',
         type: 'Cloud Architecture'
       },
       {
         id: 'ai-103',
         x: 0.0,
-        title: 'AI-103',
-        subtitle: 'DEVELOP AI APPS & AGENTS',
-        badgeColor: 0x7928ca, // AI Purple
+        title: 'Microsoft Certified: Azure AI Engineer Associate',
+        credentialId: 'B7819204918231FD',
+        certNumber: 'D9EF12-4B2KC9',
+        earnedDate: 'May 15, 2025',
+        badgeLevel: 'ASSOCIATE',
+        badgeColor: '#0078d4',
         type: 'Agentic AI & LLMs'
       },
       {
-        id: 'ab-100',
+        id: 'gh-300',
         x: 2.2,
-        title: 'AB-100 / GB-300',
-        subtitle: 'SOLUTIONS ARCHITECT & COPILOT',
-        badgeColor: 0x107c41, // Copilot / Solutions Green
-        type: 'Autonomous Systems'
+        title: 'GitHub Copilot',
+        credentialId: '3A7C3643EFDBC868',
+        certNumber: 'EC4D85-33E7EF',
+        earnedDate: 'August 4, 2025',
+        expiresDate: 'August 5, 2027',
+        badgeType: 'github-copilot',
+        badgeLevel: 'COPILOT',
+        badgeColor: '#24292e',
+        type: 'AI Pair Programming'
       }
     ];
 
@@ -538,67 +566,277 @@ export class CreativeDeskScene {
       const frameGroup = new THREE.Group();
       frameGroup.position.set(cert.x, 0, 0);
 
-      // A. Slim Anodized Black Frame
+      // A. Slim Anodized Black Architectural Frame
       const frameGeo = new THREE.BoxGeometry(1.7, 1.15, 0.03);
-      const frameMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1c, roughness: 0.3, metalness: 0.7 });
+      const frameMat = new THREE.MeshStandardMaterial({ color: 0x161719, roughness: 0.28, metalness: 0.75 });
       const frame = new THREE.Mesh(frameGeo, frameMat);
       frame.castShadow = true;
       frameGroup.add(frame);
 
-      // B. Fine Art Cardstock Inside
+      // B. Fine Art White Cardstock Backing
       const paperGeo = new THREE.PlaneGeometry(1.58, 1.03);
-      const paperMat = new THREE.MeshStandardMaterial({ color: 0xfbf9f5, roughness: 0.85 });
+      const paperMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.85 });
       const paper = new THREE.Mesh(paperGeo, paperMat);
       paper.position.z = 0.018;
       frameGroup.add(paper);
 
-      // C. Technical Certificate Canvas Graphic Texture
+      // C. Exact 1-1 Microsoft Official Certificate Graphic Canvas
       const canvas = document.createElement('canvas');
-      canvas.width = 512;
-      canvas.height = 340;
+      canvas.width = 1024;
+      canvas.height = 660;
       const ctx = canvas.getContext('2d');
 
-      // Background
-      ctx.fillStyle = '#faf7f2';
-      ctx.fillRect(0, 0, 512, 340);
-
-      // Double Geometric Border
-      ctx.strokeStyle = '#d4c5b3';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(18, 18, 476, 304);
-      ctx.strokeStyle = '#c5a059';
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(26, 26, 460, 288);
-
-      // Certificate Header
-      ctx.fillStyle = '#1e242b';
-      ctx.font = 'bold 22px "Plus Jakarta Sans", sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(cert.title, 256, 75);
-
-      ctx.fillStyle = '#7a6e60';
-      ctx.font = '600 13px "JetBrains Mono", monospace';
-      ctx.fillText(cert.subtitle, 256, 105);
-
-      // Ribbon / Technical Badge
-      ctx.fillStyle = cert.id === 'az-900' ? '#0078d4' : (cert.id === 'ai-103' ? '#7928ca' : '#107c41');
-      ctx.beginPath();
-      ctx.arc(256, 170, 36, 0, Math.PI * 2);
-      ctx.fill();
-
+      // 1. Crisp White Certificate Paper Base
       ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 18px "Plus Jakarta Sans", sans-serif';
-      ctx.fillText('✓', 256, 176);
+      ctx.fillRect(0, 0, 1024, 660);
 
-      // Recipient
-      ctx.fillStyle = '#222222';
-      ctx.font = 'italic 16px "Instrument Serif", serif';
-      ctx.fillText('Awarded to Trident (Đặng Phước Trí)', 256, 238);
+      // Subtle Outer Paper Boundary
+      ctx.strokeStyle = '#e5e7eb';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(2, 2, 1020, 656);
 
-      // Bottom Metadata
-      ctx.fillStyle = '#9e9182';
-      ctx.font = '500 11px "JetBrains Mono", monospace';
-      ctx.fillText(`VERIFIED CREDENTIAL • ${cert.type.toUpperCase()}`, 256, 275);
+      // 2. Official Microsoft Logo (4 Colored Squares + "Microsoft" Text)
+      const msLogoX = 422;
+      const msLogoY = 62;
+      const sq = 15;
+      const gap = 3;
+      // Red square (top-left)
+      ctx.fillStyle = '#f25022';
+      ctx.fillRect(msLogoX, msLogoY, sq, sq);
+      // Green square (top-right)
+      ctx.fillStyle = '#7fba00';
+      ctx.fillRect(msLogoX + sq + gap, msLogoY, sq, sq);
+      // Blue square (bottom-left)
+      ctx.fillStyle = '#00a4ef';
+      ctx.fillRect(msLogoX, msLogoY + sq + gap, sq, sq);
+      // Yellow square (bottom-right)
+      ctx.fillStyle = '#ffb900';
+      ctx.fillRect(msLogoX + sq + gap, msLogoY + sq + gap, sq, sq);
+
+      // "Microsoft" typography
+      ctx.fillStyle = '#737373';
+      ctx.font = '600 30px -apple-system, BlinkMacSystemFont, "Segoe UI", "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Microsoft', msLogoX + (sq * 2 + gap) + 14, msLogoY + 27);
+
+      // 3. Recipient Name
+      ctx.fillStyle = '#1b1b1b';
+      ctx.font = 'bold 38px -apple-system, BlinkMacSystemFont, "Segoe UI", "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('Đặng Phước Trí', 512, 192);
+
+      // 4. Requirements Subtitle
+      ctx.fillStyle = '#555555';
+      ctx.font = '400 18px -apple-system, BlinkMacSystemFont, "Segoe UI", "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('has successfully passed all requirements for', 512, 234);
+
+      // 5. Official Certificate Title (Bold)
+      ctx.fillStyle = '#111111';
+      ctx.font = 'bold 27px -apple-system, BlinkMacSystemFont, "Segoe UI", "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(cert.title, 512, 284);
+
+      // 6. Bottom Left: Credential Metadata & Verification Pill
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#333333';
+      ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.fillText(`Credential ID: ${cert.credentialId}`, 72, 420);
+      ctx.fillText(`Certification number: ${cert.certNumber}`, 72, 448);
+      ctx.fillText(`Earned on: ${cert.earnedDate}`, 72, 476);
+      if (cert.expiresDate) {
+        ctx.fillText(`Expires on: ${cert.expiresDate}`, 72, 504);
+      }
+
+      // Pill badge: [ ✓ Online Verifiable ]
+      const pillX = 72, pillY = cert.expiresDate ? 536 : 526, pillW = 162, pillH = 32, pillR = 16;
+      ctx.strokeStyle = '#0078d4';
+      ctx.lineWidth = 1.6;
+      ctx.fillStyle = 'rgba(0, 120, 212, 0.05)';
+      ctx.beginPath();
+      if (ctx.roundRect) {
+        ctx.roundRect(pillX, pillY, pillW, pillH, pillR);
+      } else {
+        ctx.rect(pillX, pillY, pillW, pillH);
+      }
+      ctx.fill();
+      ctx.stroke();
+
+      // Blue Checkmark Icon inside Pill
+      ctx.strokeStyle = '#0078d4';
+      ctx.lineWidth = 2.4;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(pillX + 16, pillY + 16);
+      ctx.lineTo(pillX + 21, pillY + 21);
+      ctx.lineTo(pillX + 28, pillY + 11);
+      ctx.stroke();
+
+      ctx.fillStyle = '#0078d4';
+      ctx.font = '600 12.5px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.fillText('Online Verifiable', pillX + 36, pillY + 20);
+
+      // 7. Bottom Center: Official Badge (GitHub Copilot vs Microsoft Certified)
+      if (cert.badgeType === 'github-copilot') {
+        const bx = 512, by = 478;
+        ctx.save();
+        // GitHub Copilot Shield Geometry (Deep charcoal slate with chevron bottom)
+        const sw = 108, sh = 122;
+        const sx = bx - sw / 2, sy = by - 56;
+        ctx.beginPath();
+        ctx.moveTo(sx + 12, sy);
+        ctx.lineTo(sx + sw - 12, sy);
+        ctx.quadraticCurveTo(sx + sw, sy, sx + sw, sy + 12);
+        ctx.lineTo(sx + sw, sy + 76);
+        ctx.lineTo(bx, sy + sh);
+        ctx.lineTo(sx, sy + 76);
+        ctx.lineTo(sx, sy + 12);
+        ctx.quadraticCurveTo(sx, sy, sx + 12, sy);
+        ctx.closePath();
+
+        ctx.fillStyle = '#22272e'; // Dark slate charcoal
+        ctx.fill();
+        ctx.strokeStyle = '#444c56'; // Subtle border outline
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        // Invertocat head silhouette
+        const gx = bx, gy = sy + 23;
+        ctx.fillStyle = '#636e7b';
+        ctx.beginPath();
+        ctx.arc(gx, gy, 11, 0, Math.PI * 2);
+        ctx.fill();
+        // Cat ears
+        ctx.beginPath();
+        ctx.moveTo(gx - 7, gy - 6);
+        ctx.lineTo(gx - 11, gy - 14);
+        ctx.lineTo(gx - 2, gy - 10);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(gx + 7, gy - 6);
+        ctx.lineTo(gx + 11, gy - 14);
+        ctx.lineTo(gx + 2, gy - 10);
+        ctx.fill();
+
+        // Bold White "GitHub" & "Copilot"
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('GitHub', bx, sy + 56);
+        ctx.fillText('Copilot', bx, sy + 74);
+
+        // Green "Certification Program"
+        ctx.fillStyle = '#2ea44f';
+        ctx.font = '600 8.5px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('Certification', bx, sy + 93);
+        ctx.fillText('Program', bx, sy + 103);
+
+        ctx.restore();
+      } else {
+        // Microsoft Certified Shield (Azure Fundamentals / AI Engineer)
+        const bx = 512, by = 484;
+        ctx.save();
+
+        // Shield Dark Navy Outline & Upper Fill
+        ctx.beginPath();
+        ctx.moveTo(bx - 55, by - 62);
+        ctx.lineTo(bx + 55, by - 62);
+        ctx.lineTo(bx + 55, by + 12);
+        ctx.quadraticCurveTo(bx + 55, by + 68, bx, by + 86);
+        ctx.quadraticCurveTo(bx - 55, by + 68, bx - 55, by + 12);
+        ctx.closePath();
+        ctx.fillStyle = '#132742'; // Microsoft Navy
+        ctx.fill();
+
+        // Shield Lower Azure Blue Region
+        ctx.beginPath();
+        ctx.moveTo(bx - 51, by + 16);
+        ctx.lineTo(bx + 51, by + 16);
+        ctx.quadraticCurveTo(bx + 51, by + 64, bx, by + 82);
+        ctx.quadraticCurveTo(bx - 51, by + 64, bx - 51, by + 16);
+        ctx.closePath();
+        ctx.fillStyle = '#0078d4'; // Azure Blue
+        ctx.fill();
+
+        // Shield Header Typography
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '600 11.5px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText('Microsoft', bx, by - 43);
+        ctx.font = 'bold 9.5px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.fillText('CERTIFIED', bx, by - 29);
+
+        // White Ribbon / Banner across shield
+        const rw = 130, rh = 28, rx = bx - rw / 2, ry = by - 14;
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = '#132742';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        if (ctx.roundRect) {
+          ctx.roundRect(rx, ry, rw, rh, 6);
+        } else {
+          ctx.rect(rx, ry, rw, rh);
+        }
+        ctx.fill();
+        ctx.stroke();
+
+        // Ribbon Text
+        ctx.fillStyle = '#132742';
+        ctx.font = '800 12.5px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+        ctx.fillText(cert.badgeLevel, bx, by + 5);
+
+        // White 5-pointed Star in Lower Shield
+        const drawStar = (cx, cy, spikes, outerRadius, innerRadius) => {
+          let rot = (Math.PI / 2) * 3;
+          let x = cx;
+          let y = cy;
+          const step = Math.PI / spikes;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy - outerRadius);
+          for (let i = 0; i < spikes; i++) {
+            x = cx + Math.cos(rot) * outerRadius;
+            y = cy + Math.sin(rot) * outerRadius;
+            ctx.lineTo(x, y);
+            rot += step;
+            x = cx + Math.cos(rot) * innerRadius;
+            y = cy + Math.sin(rot) * innerRadius;
+            ctx.lineTo(x, y);
+            rot += step;
+          }
+          ctx.lineTo(cx, cy - outerRadius);
+          ctx.closePath();
+          ctx.fillStyle = '#ffffff';
+          ctx.fill();
+        };
+        drawStar(bx, by + 48, 5, 12, 5.5);
+        ctx.restore();
+      }
+
+      // 8. Bottom Right: Satya Nadella Signature & Full Name
+      const sigX = 860, sigY = 472;
+      ctx.strokeStyle = '#1a1a1a';
+      ctx.lineWidth = 2.2;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      // Flowing cursive "Satya N."
+      ctx.moveTo(sigX - 60, sigY - 2);
+      ctx.bezierCurveTo(sigX - 50, sigY - 25, sigX - 35, sigY - 28, sigX - 30, sigY - 10);
+      ctx.bezierCurveTo(sigX - 28, sigY + 2, sigX - 42, sigY + 12, sigX - 52, sigY + 8);
+      ctx.bezierCurveTo(sigX - 35, sigY + 6, sigX - 10, sigY - 18, sigX, sigY - 12);
+      ctx.bezierCurveTo(sigX + 6, sigY - 6, sigX - 4, sigY + 6, sigX + 16, sigY + 2);
+      ctx.bezierCurveTo(sigX + 28, sigY - 2, sigX + 38, sigY - 14, sigX + 48, sigY - 8);
+      ctx.bezierCurveTo(sigX + 58, sigY - 2, sigX + 52, sigY + 8, sigX + 62, sigY + 2);
+      // Crossbar on 't'
+      ctx.moveTo(sigX - 38, sigY - 18);
+      ctx.lineTo(sigX - 18, sigY - 16);
+      ctx.stroke();
+
+      // Printed name underneath
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#333333';
+      ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+      ctx.fillText('Satya Narayana Nadella', sigX, sigY + 38);
 
       const certTexture = new THREE.CanvasTexture(canvas);
       certTexture.anisotropy = 8;
@@ -789,8 +1027,8 @@ export class CreativeDeskScene {
       { text: 'app.MapGrpcService<MortgageHighVolumeProcessor>(); // FPT PVS Home Closing', color: '#d97d64' },
       { text: 'app.MapHealthChecks("/healthz", new HealthCheckOptions { Predicate = _ => true });', color: '#dfcca8' },
       { text: 'var container = new DockerEngine("ghcr.io/trident/insurance-online:latest");', color: '#d0a27d' },
-      { text: '✓ Kubernetes Cluster AZ-900: 12 pods healthy | CPU: 18% | Memory: 42%', color: '#8bbd8c' },
-      { text: '✓ Status: ALL PRODUCTION SERVICES HEALTHY • LISTENING ON PORT 443', color: '#00d26a' }
+      { text: '[OK] Kubernetes Cluster AZ-900: 12 pods healthy | CPU: 18% | Memory: 42%', color: '#8bbd8c' },
+      { text: '[LIVE] Status: ALL PRODUCTION SERVICES HEALTHY • PORT 443', color: '#00d26a' }
     ];
 
     lines.forEach((line, idx) => {
@@ -1250,91 +1488,281 @@ export class CreativeDeskScene {
     this.interactiveObjects.push(keyboardCase);
   }
 
+  // Masterclass Architectural 3D Chair (/3dviz-pro-max):
+  // Scandinavian Compass Lounge Armchair (Solid Honey Oak, Cognac Saddle Leather & Aged Brass)
   buildChairForeground() {
     const chairGroup = new THREE.Group();
-    chairGroup.position.set(0.35, -2.6, 2.6);
-    chairGroup.rotation.y = -0.22;
+    // Position chair in foreground with generous clearance from desk front edge (z = 2.70)
+    chairGroup.position.set(0.65, -2.6, 3.65);
+    chairGroup.rotation.y = -0.36; // Angled 21° to display front cushion, side compass frame and sculpted backrest
     this.scene.add(chairGroup);
 
-    const woodMat = new THREE.MeshStandardMaterial({ color: 0xc89b67, roughness: 0.52 });
-    const cordMat = new THREE.MeshStandardMaterial({ color: 0xe3d2b6, roughness: 0.88 });
-
-    // 1. Steam-bent Continuous Curved Backrest & Armrest
-    const backCurve = new THREE.TorusGeometry(0.88, 0.045, 16, 32, Math.PI * 0.95);
-    const backrest = new THREE.Mesh(backCurve, woodMat);
-    backrest.position.set(0, 1.85, 0);
-    backrest.rotation.x = Math.PI / 2;
-    backrest.castShadow = true;
-    chairGroup.add(backrest);
-
-    // 2. Wishbone Y-Splat Spine Support
-    const spineStem = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.45, 12), woodMat);
-    spineStem.position.set(0, 1.42, -0.85);
-    spineStem.castShadow = true;
-    chairGroup.add(spineStem);
-
-    const branchLeft = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.35, 12), woodMat);
-    branchLeft.position.set(-0.1, 1.68, -0.85);
-    branchLeft.rotation.z = 0.35;
-    chairGroup.add(branchLeft);
-
-    const branchRight = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, 0.35, 12), woodMat);
-    branchRight.position.set(0.1, 1.68, -0.85);
-    branchRight.rotation.z = -0.35;
-    chairGroup.add(branchRight);
-
-    // 3. Side Armrest Downward Supports
-    const armLeft = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.65, 12), woodMat);
-    armLeft.position.set(-0.85, 1.5, 0.2);
-    armLeft.castShadow = true;
-    chairGroup.add(armLeft);
-
-    const armRight = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.65, 12), woodMat);
-    armRight.position.set(0.85, 1.5, 0.2);
-    armRight.castShadow = true;
-    chairGroup.add(armRight);
-
-    // 4. Woven Paper Cord Seat Frame
-    const seatGeo = new THREE.CylinderGeometry(0.82, 0.78, 0.08, 28);
-    const seatMesh = new THREE.Mesh(seatGeo, cordMat);
-    seatMesh.position.set(0, 1.18, 0.05);
-    seatMesh.castShadow = true;
-    seatMesh.receiveShadow = true;
-    chairGroup.add(seatMesh);
-
-    // 5. Tapered Splayed Wood Legs
-    const legPositions = [
-      [-0.65, 0.58, -0.55],
-      [0.65, 0.58, -0.55],
-      [-0.68, 0.58, 0.62],
-      [0.68, 0.58, 0.62]
-    ];
-    legPositions.forEach(([lx, ly, lz]) => {
-      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.045, 1.2, 16), woodMat);
-      leg.position.set(lx, ly, lz);
-      leg.rotation.z = lx > 0 ? -0.06 : 0.06;
-      leg.rotation.x = lz > 0 ? 0.06 : -0.06;
-      leg.castShadow = true;
-      chairGroup.add(leg);
+    // High-End Materials
+    const woodMat = new THREE.MeshStandardMaterial({
+      color: 0xc49560, // Solid Scandinavian Honey Oak
+      roughness: 0.46,
+      metalness: 0.04
     });
 
-    // Horizontal Stretchers between legs
-    const stretcherFront = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1.3, 12), woodMat);
-    stretcherFront.rotation.z = Math.PI / 2;
-    stretcherFront.position.set(0, 0.45, 0.62);
-    chairGroup.add(stretcherFront);
+    const woodDarkMat = new THREE.MeshStandardMaterial({
+      color: 0x8a5a2e, // Smoked Oak Accent
+      roughness: 0.50,
+      metalness: 0.03
+    });
 
-    const stretcherBack = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1.25, 12), woodMat);
-    stretcherBack.rotation.z = Math.PI / 2;
-    stretcherBack.position.set(0, 0.45, -0.55);
-    chairGroup.add(stretcherBack);
+    const leatherMat = new THREE.MeshStandardMaterial({
+      color: 0x8b451e, // Hand-rubbed Cognac Saddle Leather
+      roughness: 0.52,
+      metalness: 0.05
+    });
+
+    const leatherTuftMat = new THREE.MeshStandardMaterial({
+      color: 0x622c10, // Deep shadow cognac tone for piping welt and tufting
+      roughness: 0.65
+    });
+
+    const brassMat = new THREE.MeshStandardMaterial({
+      color: 0xd4b065, // Aged Scandinavian Satin Brass
+      roughness: 0.28,
+      metalness: 0.88
+    });
+
+    // Helper: Construct structural member with pinpoint mathematical end-to-end alignment
+    const createStrut = (p1, p2, rTop, rBot, mat) => {
+      const dir = new THREE.Vector3().subVectors(p2, p1);
+      const len = dir.length();
+      const mid = new THREE.Vector3().addVectors(p1, p2).multiplyScalar(0.5);
+      const geo = new THREE.CylinderGeometry(rTop, rBot, len, 16);
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.position.copy(mid);
+      mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.clone().normalize());
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      return mesh;
+    };
+
+    // ------------------------------------------------------------------------
+    // 1. Side Compass Assemblies (Inverted V-Frames with Aged Brass Ferrules)
+    // ------------------------------------------------------------------------
+    [-1, 1].forEach(side => {
+      // Front Leg
+      const pFrontFoot = new THREE.Vector3(side * 0.48, 0.0, 0.36);
+      const pSeatFront = new THREE.Vector3(side * 0.45, 1.62, 0.26);
+      const frontDir = new THREE.Vector3().subVectors(pSeatFront, pFrontFoot).normalize();
+      const pFrontFerrule = pFrontFoot.clone().add(frontDir.clone().multiplyScalar(0.08));
+
+      chairGroup.add(createStrut(pFrontFoot, pFrontFerrule, 0.026, 0.024, brassMat));
+      chairGroup.add(createStrut(pFrontFerrule, pSeatFront, 0.036, 0.026, woodMat));
+
+      // Rear Leg
+      const pRearFoot = new THREE.Vector3(side * 0.48, 0.0, -0.42);
+      const pSeatRear = new THREE.Vector3(side * 0.45, 1.62, -0.26);
+      const rearDir = new THREE.Vector3().subVectors(pSeatRear, pRearFoot).normalize();
+      const pRearFerrule = pRearFoot.clone().add(rearDir.clone().multiplyScalar(0.08));
+
+      chairGroup.add(createStrut(pRearFoot, pRearFerrule, 0.026, 0.024, brassMat));
+      chairGroup.add(createStrut(pRearFerrule, pSeatRear, 0.036, 0.026, woodMat));
+
+      // Upright Backrest Stile (Continuing from rear leg joint to backrest yoke)
+      const pStileTop = new THREE.Vector3(side * 0.41, 2.62, -0.40);
+      chairGroup.add(createStrut(pSeatRear, pStileTop, 0.032, 0.038, woodMat));
+
+      // Armrest Vertical Support Strut (Rising from front leg joint to armrest)
+      const pArmFront = new THREE.Vector3(side * 0.45, 2.06, 0.26);
+      chairGroup.add(createStrut(pSeatFront, pArmFront, 0.028, 0.034, woodMat));
+
+      // Sculpted Armrest Paddle (Solid Honey Oak with ergonomic chamfers)
+      const paddleGeo = new THREE.BoxGeometry(0.12, 0.034, 0.72);
+      const paddle = new THREE.Mesh(paddleGeo, woodMat);
+      paddle.position.set(side * 0.45, 2.08, 0.02);
+      paddle.rotation.x = 0.04;
+      paddle.castShadow = true;
+      chairGroup.add(paddle);
+
+      // Flush Inset Satin Brass Fastener Disc at Front Arm Joint
+      const brassDisc = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.038, 16), brassMat);
+      brassDisc.position.set(side * 0.45, 2.08, 0.26);
+      chairGroup.add(brassDisc);
+    });
+
+    // ------------------------------------------------------------------------
+    // 2. Structural Cross Stretchers (Lower Rungs with Precision Mortise Fit)
+    // ------------------------------------------------------------------------
+    // Front cross stretcher
+    chairGroup.add(createStrut(
+      new THREE.Vector3(-0.47, 0.46, 0.33),
+      new THREE.Vector3(0.47, 0.46, 0.33),
+      0.016, 0.016, woodMat
+    ));
+
+    // Rear cross stretcher
+    chairGroup.add(createStrut(
+      new THREE.Vector3(-0.47, 0.52, -0.37),
+      new THREE.Vector3(0.47, 0.52, -0.37),
+      0.016, 0.016, woodMat
+    ));
+
+    // Left & Right side stretchers
+    [-1, 1].forEach(side => {
+      chairGroup.add(createStrut(
+        new THREE.Vector3(side * 0.47, 0.49, 0.33),
+        new THREE.Vector3(side * 0.47, 0.49, -0.37),
+        0.016, 0.016, woodMat
+      ));
+    });
+
+    // ------------------------------------------------------------------------
+    // 3. Solid Oak Seat Frame (Apron Perimeter)
+    // ------------------------------------------------------------------------
+    const seatFrameGroup = new THREE.Group();
+    seatFrameGroup.position.set(0, 1.58, 0);
+    chairGroup.add(seatFrameGroup);
+
+    // Front rail
+    const railFront = new THREE.Mesh(new THREE.BoxGeometry(0.86, 0.08, 0.05), woodMat);
+    railFront.position.set(0, 0, 0.26);
+    railFront.castShadow = true;
+    seatFrameGroup.add(railFront);
+
+    // Rear rail
+    const railBack = new THREE.Mesh(new THREE.BoxGeometry(0.86, 0.08, 0.05), woodMat);
+    railBack.position.set(0, 0, -0.26);
+    railBack.castShadow = true;
+    seatFrameGroup.add(railBack);
+
+    // Left & Right side rails
+    const railLeft = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.08, 0.52), woodMat);
+    railLeft.position.set(-0.43, 0, 0);
+    railLeft.castShadow = true;
+    seatFrameGroup.add(railLeft);
+
+    const railRight = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.08, 0.52), woodMat);
+    railRight.position.set(0.43, 0, 0);
+    railRight.castShadow = true;
+    seatFrameGroup.add(railRight);
+
+    // Solid base sub-panel under cushion
+    const basePanel = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.02, 0.48), woodDarkMat);
+    basePanel.position.set(0, -0.04, 0);
+    seatFrameGroup.add(basePanel);
+
+    // ------------------------------------------------------------------------
+    // 4. Ergonomic Cognac Saddle Leather Seat Cushion with French Welt
+    // ------------------------------------------------------------------------
+    const sw = 0.40, sd = 0.25, sr = 0.07;
+    const seatShape = new THREE.Shape();
+    seatShape.moveTo(-sw + sr, -sd);
+    seatShape.lineTo(sw - sr, -sd);
+    seatShape.quadraticCurveTo(sw, -sd, sw, -sd + sr);
+    seatShape.lineTo(sw, sd - sr);
+    seatShape.quadraticCurveTo(sw, sd, sw - sr, sd);
+    seatShape.lineTo(-sw + sr, sd);
+    seatShape.quadraticCurveTo(-sw, sd, -sw, sd - sr);
+    seatShape.lineTo(-sw, -sd + sr);
+    seatShape.quadraticCurveTo(-sw, -sd, -sw + sr, -sd);
+
+    const cushionGeo = new THREE.ExtrudeGeometry(seatShape, {
+      depth: 0.10,
+      bevelEnabled: true,
+      bevelSegments: 5,
+      steps: 1,
+      bevelSize: 0.024,
+      bevelThickness: 0.022
+    });
+
+    const seatCushion = new THREE.Mesh(cushionGeo, leatherMat);
+    seatCushion.rotation.x = -Math.PI / 2;
+    seatCushion.position.set(0, 1.58, 0);
+    seatCushion.castShadow = true;
+    seatCushion.receiveShadow = true;
+    chairGroup.add(seatCushion);
+
+    // Tailored Saddle-Stitched Perimeter Welt (Contoured Tube hugging cushion boundary)
+    const weltPoints = [
+      new THREE.Vector3(-sw + sr, 1.63, sd),
+      new THREE.Vector3(sw - sr,  1.63, sd),
+      new THREE.Vector3(sw,       1.63, sd - sr),
+      new THREE.Vector3(sw,       1.63, -sd + sr),
+      new THREE.Vector3(sw - sr,  1.63, -sd),
+      new THREE.Vector3(-sw + sr, 1.63, -sd),
+      new THREE.Vector3(-sw,      1.63, -sd + sr),
+      new THREE.Vector3(-sw,      1.63, sd - sr)
+    ];
+    const weltCurve = new THREE.CatmullRomCurve3(weltPoints, true, 'centripetal', 0.2);
+    const weltGeo = new THREE.TubeGeometry(weltCurve, 48, 0.010, 10, true);
+    const weltMesh = new THREE.Mesh(weltGeo, leatherTuftMat);
+    chairGroup.add(weltMesh);
+
+    // 4 Leather Tufting Buttons on Seat Surface
+    const tuftPositions = [
+      [-0.18, 0.10],
+      [0.18,  0.10],
+      [-0.18, -0.10],
+      [0.18,  -0.10]
+    ];
+    tuftPositions.forEach(([tx, tz]) => {
+      const button = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.014, 0.012, 12), leatherTuftMat);
+      button.position.set(tx, 1.722, tz);
+      chairGroup.add(button);
+    });
+
+    // ------------------------------------------------------------------------
+    // 5. Sculpted Bentwood Backrest Yoke & Upholstered Lumbar Support
+    // ------------------------------------------------------------------------
+    // Sculpted Continuous Bentwood Yoke (CatmullRom Spline passing precisely through stiles)
+    const backrestCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(-0.45, 2.12, -0.06), // Left armrest junction
+      new THREE.Vector3(-0.44, 2.45, -0.28), // Left shoulder curve
+      new THREE.Vector3(-0.41, 2.62, -0.40), // Left stile top junction
+      new THREE.Vector3(0.0,   2.66, -0.44), // Center crest
+      new THREE.Vector3(0.41,  2.62, -0.40), // Right stile top junction
+      new THREE.Vector3(0.44,  2.45, -0.28), // Right shoulder curve
+      new THREE.Vector3(0.45,  2.12, -0.06)  // Right armrest junction
+    ]);
+    const topRailGeo = new THREE.TubeGeometry(backrestCurve, 48, 0.036, 16, false);
+    const topRailMesh = new THREE.Mesh(topRailGeo, woodMat);
+    topRailMesh.castShadow = true;
+    chairGroup.add(topRailMesh);
+
+    // Horizontal Rear Support Rails for Lumbar Cushion
+    [2.15, 2.32].forEach(ry => {
+      chairGroup.add(createStrut(
+        new THREE.Vector3(-0.42, ry, -0.36),
+        new THREE.Vector3(0.42, ry, -0.36),
+        0.014, 0.014, woodDarkMat
+      ));
+    });
+
+    // Upholstered Leather Lumbar Cushion Inlay
+    const lumbarPadGeo = new THREE.BoxGeometry(0.64, 0.28, 0.06);
+    const lumbarPad = new THREE.Mesh(lumbarPadGeo, leatherMat);
+    lumbarPad.position.set(0, 2.22, -0.34);
+    lumbarPad.rotation.x = -0.16;
+    lumbarPad.castShadow = true;
+    chairGroup.add(lumbarPad);
+
+    // Decorative Leather Welt on Lumbar Cushion
+    const lumbarWeltGeo = new THREE.BoxGeometry(0.65, 0.29, 0.01);
+    const lumbarWelt = new THREE.Mesh(lumbarWeltGeo, leatherTuftMat);
+    lumbarWelt.position.set(0, 2.22, -0.37);
+    lumbarWelt.rotation.x = -0.16;
+    chairGroup.add(lumbarWelt);
+
+    // Register chair as interactive object in the studio
+    chairGroup.userData = {
+      type: 'chair',
+      name: 'Ghế Kiến Trúc Bắc Âu (Solid Honey Oak & Da Bò Cognac)'
+    };
+    this.interactiveObjects.push(chairGroup);
   }
 
-  // Focus Camera on specific Section smoothly
+  // Focus Camera on specific Section smoothly (Adaptive for Mobile / Desktop)
   focusSection(sectionName) {
     if (this.cameraFocusPoints[sectionName]) {
       this.activeSection = sectionName;
-      const pt = this.cameraFocusPoints[sectionName];
+      const pt = (this.isMobile && this.cameraFocusPointsMobile && this.cameraFocusPointsMobile[sectionName])
+        ? this.cameraFocusPointsMobile[sectionName]
+        : this.cameraFocusPoints[sectionName];
       this.targetCameraPos.copy(pt.pos);
       this.lookAtTarget.copy(pt.target);
       return pt;
@@ -1342,7 +1770,7 @@ export class CreativeDeskScene {
     return null;
   }
 
-  // Cycle viewpoints using navigation arrows
+  // Cycle viewpoints using navigation arrows or swipe gestures
   switchAngle(dir = 1) {
     const keys = Object.keys(this.cameraFocusPoints);
     let currentIndex = keys.indexOf(this.activeSection);
@@ -1378,17 +1806,63 @@ export class CreativeDeskScene {
       this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
 
-      // Gentle mouse breathing parallax around active camera focus point
-      const pt = this.cameraFocusPoints[this.activeSection] || this.cameraFocusPoints.overview;
-      this.targetCameraPos.x = pt.pos.x + this.mouse.x * 0.25;
-      this.targetCameraPos.y = pt.pos.y + this.mouse.y * 0.18;
+      // Gentle mouse breathing parallax around active camera focus point (desktop only)
+      if (!this.isMobile) {
+        const pt = this.cameraFocusPoints[this.activeSection] || this.cameraFocusPoints.overview;
+        this.targetCameraPos.x = pt.pos.x + this.mouse.x * 0.25;
+        this.targetCameraPos.y = pt.pos.y + this.mouse.y * 0.18;
+      }
+
+      // If hovering over HTML UI or if drawer is open, keep default cursor and don't raycast
+      const target = e.target;
+      if (document.querySelector('.drawer-modal.active') || (target && target.closest && (
+        target.closest('.top-bar') ||
+        target.closest('.bottom-bar') ||
+        target.closest('.drawer-modal') ||
+        target.closest('.drawer-backdrop') ||
+        target.closest('.manifesto-popover') ||
+        target.closest('button') ||
+        target.closest('a')
+      ))) {
+        this.container.style.cursor = 'default';
+        return;
+      }
 
       this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersects = this.raycaster.intersectObjects(this.interactiveObjects, true);
       this.container.style.cursor = intersects.length > 0 ? 'pointer' : 'default';
     };
 
-    this.onPointerDown = () => {
+    this.onPointerDown = (e) => {
+      // 1. If click target is inside ANY HTML UI element, ignore 3D raycasting
+      const target = e.target;
+      if (target && target.closest && (
+        target.closest('.top-bar') ||
+        target.closest('.bottom-bar') ||
+        target.closest('.drawer-modal') ||
+        target.closest('.drawer-backdrop') ||
+        target.closest('.manifesto-popover') ||
+        target.closest('button') ||
+        target.closest('a') ||
+        target.closest('input')
+      )) {
+        return;
+      }
+
+      // 2. If drawer modal is active/open, do not trigger background 3D interactions
+      if (document.querySelector('.drawer-modal.active')) {
+        return;
+      }
+
+      // 3. Only accept clicks intended for the 3D canvas viewport
+      if (target && target !== this.renderer.domElement && target !== this.container && !this.container.contains(target)) {
+        return;
+      }
+
+      if (e.clientX !== undefined && e.clientY !== undefined) {
+        this.mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        this.mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+      }
       this.raycaster.setFromCamera(this.mouse, this.camera);
       const intersects = this.raycaster.intersectObjects(this.interactiveObjects, true);
       if (intersects.length > 0) {
@@ -1397,23 +1871,83 @@ export class CreativeDeskScene {
     };
 
     this.onResize = () => {
-      this.camera.aspect = window.innerWidth / window.innerHeight;
+      const aspect = window.innerWidth / window.innerHeight;
+      this.isMobile = aspect < 1.0 || window.innerWidth < 768;
+      this.camera.aspect = aspect;
+      this.camera.fov = this.isMobile ? 62 : 45;
       this.camera.updateProjectionMatrix();
       this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      // Refresh camera target based on new mobile state
+      const pt = (this.isMobile && this.cameraFocusPointsMobile && this.cameraFocusPointsMobile[this.activeSection])
+        ? this.cameraFocusPointsMobile[this.activeSection]
+        : this.cameraFocusPoints[this.activeSection];
+      if (pt) {
+        this.targetCameraPos.copy(pt.pos);
+        this.lookAtTarget.copy(pt.target);
+      }
     };
 
     window.addEventListener('resize', this.onResize);
     window.addEventListener('pointermove', this.onPointerMove);
+    this.renderer.domElement.addEventListener('pointerdown', this.onPointerDown);
     window.addEventListener('pointerdown', this.onPointerDown);
+
+    // Touch Swipe Gesture for switching angles seamlessly on mobile
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+
+    window.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        touchStartTime = Date.now();
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      // Don't trigger scene swipe if tapping/swiping inside open modal, drawer or controls
+      const target = e.target;
+      if (target && target.closest && (target.closest('.drawer-modal') || target.closest('.manifesto-popover') || target.closest('.top-bar') || target.closest('.bottom-bar'))) {
+        return;
+      }
+
+      if (e.changedTouches.length === 1) {
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+        const duration = Date.now() - touchStartTime;
+
+        // Valid swipe: distance > 45px, mostly horizontal, under 500ms
+        if (duration < 500 && Math.abs(deltaX) > 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.35) {
+          if (deltaX < 0) {
+            // Swipe Left -> Next Perspective
+            this.switchAngle(1);
+          } else {
+            // Swipe Right -> Previous Perspective
+            this.switchAngle(-1);
+          }
+          if (navigator.vibrate) {
+            try { navigator.vibrate(15); } catch (_) {}
+          }
+          window.dispatchEvent(new CustomEvent('trident-cam-switch', {
+            detail: { section: this.activeSection }
+          }));
+        }
+      }
+    }, { passive: true });
   }
 
   triggerInteraction(object) {
-    let data = object.userData;
-    // Walk up parents if needed
-    if (!data || !data.type) {
-      if (object.parent && object.parent.userData && object.parent.userData.type) {
-        data = object.parent.userData;
-      }
+    let current = object;
+    let data = current ? current.userData : null;
+    // Walk up ancestor chain to find interactive node
+    while (current && (!data || !data.type)) {
+      current = current.parent;
+      if (current) data = current.userData;
     }
     if (!data || !data.type) return;
 
@@ -1465,6 +1999,11 @@ export class CreativeDeskScene {
       window.dispatchEvent(new CustomEvent('trident-open-drawer', { detail: { tab: `tab-${section}` } }));
       window.dispatchEvent(new CustomEvent('trident-interaction', {
         detail: { message: `Focus: ${data.name}`, icon: icon }
+      }));
+    } else if (data.type === 'chair') {
+      synth.playTactileClick(650);
+      window.dispatchEvent(new CustomEvent('trident-interaction', {
+        detail: { message: 'Ghế Kiến Trúc Bắc Âu (Solid Honey Oak & Da Bò Cognac)', icon: 'craft' }
       }));
     }
   }

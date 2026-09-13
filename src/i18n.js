@@ -75,14 +75,15 @@ export const translations = {
     // Tab: Certifications
     cert_meta: "CHỨNG NHẬN CHUYÊN MÔN / CLOUD &amp; AGENTIC AI",
     cert_heading: "Chứng Chỉ Quốc Tế",
-    cert1_title: "Microsoft Azure Cloud Fundamentals",
+    cert_passed: "has successfully passed all requirements for",
+    cert1_title: "Microsoft Certified: Azure Fundamentals",
     cert1_desc: "Kiến trúc đám mây Microsoft, hạ tầng bảo mật, quản trị tài nguyên và điện toán phân tán",
-    cert2_title: "Phát triển Ứng dụng &amp; Agent AI trên Azure",
+    cert2_title: "Microsoft Certified: Azure AI Engineer Associate",
     cert2_desc: "Azure AI Foundry, Tìm kiếm ngữ nghĩa (Semantic Search), Điều phối Agent tự hành &amp; Tích hợp LLM",
-    cert3_title: "Kiến Trúc Sư Giải Pháp Doanh Nghiệp với Agentic AI",
-    cert3_desc: "Hệ thống Multi-Agent tự trị, quy trình tự động hóa tác vụ nghiệp vụ và tích hợp hệ thống doanh nghiệp",
-    cert4_title: "GitHub Copilot Certified",
-    cert4_desc: "Lập trình cộng tác cùng AI, tối ưu hóa hiệu suất phát triển và chuẩn mực sinh mã thông minh",
+    cert3_title: "GitHub Copilot",
+    cert3_desc: "Lập trình cộng tác cùng AI, tối ưu hóa hiệu suất phát triển và chuẩn mực sinh mã thông minh",
+    cert4_title: "Microsoft Certified: Solutions Architect Expert",
+    cert4_desc: "Hệ thống Multi-Agent tự trị, quy trình tự động hóa tác vụ nghiệp vụ và tích hợp hệ thống doanh nghiệp",
 
     // Tab: Skills & Tools
     skills_meta: "HỆ SINH THÁI KỸ THUẬT / NĂNG LỰC CỐT LÕI",
@@ -188,14 +189,15 @@ export const translations = {
     // Tab: Certifications
     cert_meta: "CREDENTIALS / CLOUD &amp; AGENTIC AI",
     cert_heading: "Professional Certifications",
-    cert1_title: "Microsoft Azure Cloud Fundamentals",
+    cert_passed: "has successfully passed all requirements for",
+    cert1_title: "Microsoft Certified: Azure Fundamentals",
     cert1_desc: "Microsoft Certified Cloud Architecture, Infrastructure &amp; Security Services",
-    cert2_title: "Develop AI Apps and Agents on Azure",
+    cert2_title: "Microsoft Certified: Azure AI Engineer Associate",
     cert2_desc: "Azure AI Foundry, Semantic Search, Autonomous Agent Workflows &amp; LLM Orchestration",
-    cert3_title: "Agentic AI Business Solutions Architect",
-    cert3_desc: "Autonomous Agents, Enterprise AI Workflows &amp; Multi-Agent System Integration",
-    cert4_title: "GitHub Copilot Certified",
-    cert4_desc: "AI Pair Programming, Developer Productivity &amp; Intelligent Code Generation",
+    cert3_title: "GitHub Copilot",
+    cert3_desc: "AI Pair Programming, Developer Productivity &amp; Intelligent Code Generation",
+    cert4_title: "Microsoft Certified: Solutions Architect Expert",
+    cert4_desc: "Autonomous Agents, Enterprise AI Workflows &amp; Multi-Agent System Integration",
 
     // Tab: Skills & Tools
     skills_meta: "TECHNICAL ECOSYSTEM / CORE COMPETENCIES",
@@ -298,16 +300,21 @@ export class I18nManager {
       }
     });
 
-    // Update language toggle button text
+    // Update language toggle button text and custom vector flag badge
     const langBtnText = document.getElementById('langText');
     const langFlag = document.getElementById('langFlag');
     if (langBtnText) {
       langBtnText.textContent = this.currentLang.toUpperCase();
     }
     if (langFlag) {
-      langFlag.textContent = this.currentLang === 'vi' ? '🇻🇳' : '🇺🇸';
+      langFlag.innerHTML = FLAG_ICONS[this.currentLang] || FLAG_ICONS.vi;
     }
   }
 }
+
+const FLAG_ICONS = {
+  vi: `<svg class="lang-flag-svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#da251d"/><polygon points="12,4.5 14.3,9.2 19.5,9.9 15.7,13.6 16.6,18.8 12,16.4 7.4,18.8 8.3,13.6 4.5,9.9 9.7,9.2" fill="#ffd100"/></svg>`,
+  en: `<svg class="lang-flag-svg" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><defs><clipPath id="langRoundEn"><circle cx="12" cy="12" r="11"/></clipPath></defs><g clip-path="url(#langRoundEn)"><rect width="24" height="24" fill="#bf0a30"/><rect y="3.7" width="24" height="3.7" fill="#ffffff"/><rect y="11.1" width="24" height="3.7" fill="#ffffff"/><rect y="18.5" width="24" height="3.7" fill="#ffffff"/><rect width="11" height="13" fill="#002868"/><polygon points="3.5,4 4.1,5.2 5.5,5.4 4.5,6.4 4.7,7.8 3.5,7.1 2.3,7.8 2.5,6.4 1.5,5.4 2.9,5.2" fill="#fff"/><polygon points="7.5,4 8.1,5.2 9.5,5.4 8.5,6.4 8.7,7.8 7.5,7.1 6.3,7.8 6.5,6.4 5.5,5.4 6.9,5.2" fill="#fff"/><polygon points="5.5,8 6.1,9.2 7.5,9.4 6.5,10.4 6.7,11.8 5.5,11.1 4.3,11.8 4.5,10.4 3.5,9.4 4.9,9.2" fill="#fff"/></g><circle cx="12" cy="12" r="11" fill="none" stroke="rgba(30,27,24,0.18)" stroke-width="1.2"/></svg>`
+};
 
 export const i18n = new I18nManager();
