@@ -1,11 +1,12 @@
 import { CreativeDeskScene } from './scene/creative-desk.js';
 import { synth } from './audio/synth.js';
+import { i18n } from './i18n.js';
 
 const TOAST_ICONS = {
   craft: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>`,
   sprout: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c0-6 4-7 4-13a4 4 0 0 0-8 0c0 4 2 8 4 13z"/><path d="M14 13c3 0 6 1 6 5"/></svg>`,
   folder: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>`,
-  award: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`,
+  award: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>`,
   display: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
   radio: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><circle cx="8" cy="14" r="3"/><line x1="15" y1="11" x2="19" y2="11"/><line x1="15" y1="14" x2="19" y2="14"/><line x1="15" y1="17" x2="19" y2="17"/><line x1="7" y1="7" x2="15" y2="2"/></svg>`,
   keyboard: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="8" x2="6" y2="8"/><line x1="10" y1="8" x2="10" y2="8"/><line x1="14" y1="8" x2="14" y2="8"/><line x1="18" y1="8" x2="18" y2="8"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="14" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/><line x1="7" y1="16" x2="17" y2="16"/></svg>`,
@@ -15,7 +16,26 @@ const TOAST_ICONS = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Initialize Fullscreen 3D Scene
+  // 1. Initialize i18n & DOM Content
+  i18n.applyToDOM();
+
+  let currentActiveSection = 'overview';
+  const camAngleName = document.getElementById('camAngleName');
+
+  const getCamAngleText = (sectionKey) => {
+    const key = `cam_${sectionKey}`;
+    const trans = i18n.t(key);
+    const prefix = i18n.getLang() === 'vi' ? 'GÓC NHÌN' : 'VIEW';
+    return `${prefix}: ${trans}`;
+  };
+
+  const updateActivePerspectiveName = () => {
+    if (camAngleName) {
+      camAngleName.textContent = getCamAngleText(currentActiveSection);
+    }
+  };
+
+  // 2. Initialize Fullscreen 3D Scene
   const canvasContainer = document.getElementById('canvas-container');
   let deskScene = null;
 
@@ -23,7 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
     deskScene = new CreativeDeskScene(canvasContainer);
   }
 
-  // 2. Sound Toggle & Live Equalizer Visualizer
+  // 3. Language Toggle (Bilingual EN / VI)
+  const langToggleBtn = document.getElementById('langToggle');
+  if (langToggleBtn) {
+    langToggleBtn.addEventListener('click', () => {
+      const nextLang = i18n.toggleLang();
+      synth.playTactileClick(1250);
+      showToast(nextLang === 'vi' ? 'Đã chuyển sang Tiếng Việt' : 'Switched to English', 'sparkle');
+      updateActivePerspectiveName();
+    });
+  }
+
+  // 4. Sound Toggle & Live Equalizer Visualizer
   const soundToggleBtn = document.getElementById('soundToggle');
   const soundText = document.getElementById('soundText');
   const eqBars = document.querySelectorAll('.eq-bar');
@@ -32,10 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
     soundToggleBtn.addEventListener('click', () => {
       const isMuted = synth.toggleMute();
       if (isMuted) {
-        soundText.textContent = 'MUTED';
+        soundText.textContent = i18n.t('audio_muted');
         soundToggleBtn.style.opacity = '0.55';
       } else {
-        soundText.textContent = 'AUDIO';
+        soundText.textContent = i18n.t('audio_on');
         soundToggleBtn.style.opacity = '1';
         synth.playTactileClick(1200);
       }
@@ -44,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Animate Equalizer on Note Play
   synth.onNote(() => {
-    eqBars.forEach((bar, idx) => {
+    eqBars.forEach((bar) => {
       const randomH = 6 + Math.random() * 8;
       bar.style.height = `${randomH}px`;
     });
@@ -55,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 240);
   });
 
-  // 4. Lighting Rig Presets Switcher
+  // 5. Lighting Rig Presets Switcher
   const lightBtns = document.querySelectorAll('.light-preset-btn');
   lightBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -65,12 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (deskScene && deskScene.setLightingMode) {
         deskScene.setLightingMode(mode);
         synth.playTactileClick(1150);
-        showToast(`Studio Lighting: ${mode.toUpperCase()} preset applied`, 'light');
+        showToast(
+          i18n.getLang() === 'vi' ? `Ánh Sáng: ${mode.toUpperCase()} đã kích hoạt` : `Studio Lighting: ${mode.toUpperCase()} preset applied`,
+          'light'
+        );
       }
     });
   });
 
-  // 5. Drawer Modal Controller (Single Page navigation)
+  // 6. Drawer Modal Controller (Single Page navigation)
   const drawerModal = document.getElementById('drawerModal');
   const drawerBackdrop = document.getElementById('drawerBackdrop');
   const closeDrawerBtn = document.getElementById('closeDrawer');
@@ -101,11 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Synchronize 3D Camera focus with section
     const section = tabId.replace('tab-', '');
+    currentActiveSection = section;
     if (deskScene && deskScene.focusSection) {
-      const active = deskScene.focusSection(section);
-      if (active && camAngleName) {
-        camAngleName.textContent = `VIEW: ${active.name.toUpperCase()}`;
-      }
+      deskScene.focusSection(section);
+      updateActivePerspectiveName();
     }
 
     synth.playTactileClick(1000);
@@ -117,11 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
     drawerBackdrop.classList.remove('active');
 
     // Reset camera to studio overview
+    currentActiveSection = 'overview';
     if (deskScene && deskScene.focusSection) {
       deskScene.focusSection('overview');
-      if (camAngleName) {
-        camAngleName.textContent = 'VIEW: OVERVIEW';
-      }
+      updateActivePerspectiveName();
     }
 
     synth.playTactileClick(800);
@@ -157,14 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Camera Switch Buttons
   const camAnglePrev = document.getElementById('camAnglePrev');
   const camAngleNext = document.getElementById('camAngleNext');
-  const camAngleName = document.getElementById('camAngleName');
 
   const updateCamAngle = (dir) => {
     if (deskScene && deskScene.switchAngle) {
-      const active = deskScene.switchAngle(dir);
-      if (camAngleName) {
-        camAngleName.textContent = `VIEW: ${active.name.toUpperCase()}`;
-      }
+      deskScene.switchAngle(dir);
+      currentActiveSection = deskScene.activeSection || 'overview';
+      updateActivePerspectiveName();
     }
   };
 
@@ -181,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const codeViewToggle = document.getElementById('codeViewToggle');
   if (codeViewToggle) codeViewToggle.addEventListener('click', () => openDrawerWithTab('tab-skills'));
 
-  // 6. Engineering Manifesto Status Chip & Popover Controller
+  // 7. Engineering Manifesto Status Chip & Popover Controller
   const manifestoChipBtn = document.getElementById('manifestoChipBtn');
   const manifestoPopover = document.getElementById('manifestoPopover');
   const manifestoPopoverClose = document.getElementById('manifestoPopoverClose');
@@ -198,7 +228,10 @@ document.addEventListener('DOMContentLoaded', () => {
         manifestoPopover.classList.add('open');
         manifestoChipBtn.classList.add('active');
         synth.playTactileClick(1100);
-        showToast('Software Engineering Manifesto: Craftsmanship & Maintenance', 'craft');
+        showToast(
+          i18n.getLang() === 'vi' ? 'Triết lý Kỹ thuật: Bền vững & Chuẩn mực' : 'Software Engineering Manifesto: Craftsmanship & Maintenance',
+          'craft'
+        );
       }
     });
 
@@ -242,7 +275,10 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }, i * 120);
       });
-      showToast('Mechanical Switch Rhythm (PBT Keycaps bottoming out on brass plate)', 'keyboard');
+      showToast(
+        i18n.getLang() === 'vi' ? 'Nhịp gõ phím cơ xúc giác (PBT Keycaps bottoming out trên plate đồng)' : 'Mechanical Switch Rhythm (PBT Keycaps bottoming out on brass plate)',
+        'keyboard'
+      );
     });
   }
 
@@ -303,5 +339,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  console.log('[TRIDENT] 3D Spatial Studio Initialized with 3dviz-pro-max Standards.');
+  // Initial update for perspective text
+  updateActivePerspectiveName();
+
+  console.log('[TRIDENT] 3D Spatial Studio Initialized with Bilingual System (EN/VI).');
 });

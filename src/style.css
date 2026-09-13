@@ -147,6 +147,28 @@ html, body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
+/* Bilingual Language Toggle Pill */
+.lang-pill {
+  padding: 8px 14px;
+  gap: 6px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  border-color: rgba(30, 27, 24, 0.12);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.lang-pill:hover {
+  border-color: var(--accent-orange);
+  color: var(--accent-orange);
+}
+
+.lang-flag {
+  font-size: 0.95rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+}
+
 .equalizer-bars {
   display: flex;
   align-items: flex-end;

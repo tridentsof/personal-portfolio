@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRIDENT — Full-stack Developer &amp; Visual Designer</title>
-  <meta name="description" content="TRIDENT (Đặng Phước Trí) — Full-stack Developer, Visual Designer, Azure Cloud Architect &amp; FOSS Gardener.">
+  <title>TRIDENT — Solution Architect &amp; Engineering Lead</title>
+  <meta name="description" content="TRIDENT (Đặng Phước Trí) — Solution Architect &amp; Engineering Lead. InsurTech, MarTech, Azure Cloud Architecture, Distributed Systems.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/src/style.css">
@@ -14,25 +14,29 @@
   <!-- Fullscreen WebGL 3D Canvas Viewport -->
   <div id="canvas-container" class="webgl-canvas-container"></div>
 
-
-
   <!-- UI Overlay Layer -->
   <div class="ui-overlay">
     
     <!-- Top Navigation Bar -->
     <header class="top-bar">
       <div class="brand-group">
-        <h1 class="brand-title">TRIDENT</h1>
-        <p class="brand-subtitle">Full-stack Developer<br>&amp; Visual Designer</p>
+        <h1 class="brand-title" data-i18n="brand_title">TRIDENT</h1>
+        <p class="brand-subtitle" data-i18n="brand_subtitle">Solution Architect &amp; Engineering Lead<br>Chuyên gia InsurTech &amp; MarTech</p>
       </div>
 
       <nav class="top-nav">
-        <button class="nav-btn" data-target="home">Home</button>
-        <button class="nav-btn" data-target="about">About</button>
-        <button class="nav-btn" data-target="experience">Experience</button>
-        <button class="nav-btn" data-target="certifications">Certs</button>
-        <button class="nav-btn" data-target="skills">Stack</button>
-        <button class="nav-btn" data-target="contact">Contact</button>
+        <button class="nav-btn" data-target="home" data-i18n="nav_home">Trang chủ</button>
+        <button class="nav-btn" data-target="about" data-i18n="nav_about">Giới thiệu</button>
+        <button class="nav-btn" data-target="experience" data-i18n="nav_experience">Kinh nghiệm</button>
+        <button class="nav-btn" data-target="certifications" data-i18n="nav_certs">Chứng chỉ</button>
+        <button class="nav-btn" data-target="skills" data-i18n="nav_stack">Kỹ năng</button>
+        <button class="nav-btn" data-target="contact" data-i18n="nav_contact">Liên hệ</button>
+
+        <!-- Bilingual Language Toggle -->
+        <button id="langToggle" class="pill-btn lang-pill" title="Chuyển đổi ngôn ngữ / Switch Language" aria-label="Toggle Language">
+          <span id="langFlag" class="lang-flag">🇻🇳</span>
+          <span id="langText">VI</span>
+        </button>
 
         <!-- Sound Toggle with Live Animated Equalizer -->
         <button id="soundToggle" class="pill-btn sound-pill" title="Toggle mechanical acoustic piano audio">
@@ -41,7 +45,7 @@
             <span class="eq-bar"></span>
             <span class="eq-bar"></span>
           </div>
-          <span id="soundText">AUDIO</span>
+          <span id="soundText" data-i18n="audio_on">ÂM THANH</span>
         </button>
       </nav>
     </header>
@@ -49,19 +53,19 @@
     <!-- Left Vertical Utility Bar -->
     <aside class="left-dock">
       <div class="dock-top">
-        <button class="icon-btn" id="menuToggle" title="Open Curator Archive">
+        <button class="icon-btn" id="menuToggle" data-i18n-title="dock_menu_tip" title="Mở Hồ Sơ Năng Lực">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
-        <button class="icon-btn" id="quickSearch" title="Search Stack &amp; Tools">
+        <button class="icon-btn" id="quickSearch" data-i18n-title="dock_search_tip" title="Tìm kiếm Kỹ năng &amp; Công nghệ">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         </button>
-        <button class="icon-btn" id="codeViewToggle" title="Cloud Code View">
+        <button class="icon-btn" id="codeViewToggle" data-i18n-title="dock_code_tip" title="Góc nhìn Mã nguồn Đám mây">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         </button>
       </div>
 
       <div class="dock-bottom">
-        <a href="https://azharahmad.com" target="_blank" rel="noopener" class="icon-btn" title="GitHub: tridentsof">
+        <a href="https://github.com/tridentsof" target="_blank" rel="noopener" class="icon-btn" title="GitHub: tridentsof">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
         </a>
         <a href="https://www.linkedin.com/in/tri-dang-phuoc-trident-85b066244/" target="_blank" rel="noopener" class="icon-btn" title="LinkedIn">
@@ -73,14 +77,14 @@
     <!-- Right Vertical Dock: Lighting Mode Switcher -->
     <aside class="right-dock">
       <div class="lighting-switcher" title="Studio Lighting Rig">
-        <span class="lighting-label">LIGHTING</span>
-        <button class="light-preset-btn active" data-light="morning" title="Morning Sunlight" aria-label="Morning Sunlight">
+        <span class="lighting-label" data-i18n="dock_lighting_label">ÁNH SÁNG</span>
+        <button class="light-preset-btn active" data-light="morning" data-i18n-title="dock_light_morning" title="Nắng Sớm Ban Mai" aria-label="Morning Sunlight">
           <svg class="preset-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="4"/>
             <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
           </svg>
         </button>
-        <button class="light-preset-btn" data-light="golden" title="Golden Hour" aria-label="Golden Hour">
+        <button class="light-preset-btn" data-light="golden" data-i18n-title="dock_light_golden" title="Hoàng Hôn Rực Rỡ" aria-label="Golden Hour">
           <svg class="preset-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 18a5 5 0 0 0-10 0"/>
             <line x1="12" y1="2" x2="12" y2="9"/>
@@ -90,7 +94,7 @@
             <line x1="23" y1="22" x2="1" y2="22"/>
           </svg>
         </button>
-        <button class="light-preset-btn" data-light="studio" title="Studio Warmth" aria-label="Studio Warmth">
+        <button class="light-preset-btn" data-light="studio" data-i18n-title="dock_light_studio" title="Đèn Phòng Thu Ấm Áp" aria-label="Studio Warmth">
           <svg class="preset-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 18h6"/>
             <path d="M10 22h4"/>
@@ -99,7 +103,7 @@
         </button>
       </div>
 
-      <a href="mailto:tridp.it@outlook.com" class="icon-btn" title="Email Trident">
+      <a href="mailto:tridp.it@outlook.com" class="icon-btn" data-i18n-title="dock_email_tip" title="Gửi Email cho Trident">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
       </a>
     </aside>
@@ -108,13 +112,13 @@
     <footer class="bottom-bar">
       <div class="bottom-left-group">
         <div class="bottom-nav-arrows">
-          <button class="circle-btn" id="camAnglePrev" title="Previous Perspective" aria-label="Previous Perspective">
+          <button class="circle-btn" id="camAnglePrev" data-i18n-title="cam_prev_tip" title="Góc nhìn trước" aria-label="Previous Perspective">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
-          <button class="circle-btn" id="camAngleNext" title="Next Perspective" aria-label="Next Perspective">
+          <button class="circle-btn" id="camAngleNext" data-i18n-title="cam_next_tip" title="Góc nhìn tiếp theo" aria-label="Next Perspective">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           </button>
-          <span class="perspective-badge" id="camAngleName">VIEW: OVERVIEW</span>
+          <span class="perspective-badge" id="camAngleName">GÓC NHÌN: TỔNG QUAN KHÔNG GIAN</span>
         </div>
 
         <!-- Interactive Engineering Manifesto Status Chip & Popover -->
@@ -127,26 +131,26 @@
               <circle cx="6" cy="18" r="3"/>
               <path d="M18 9a9 9 0 0 1-9 9"/>
             </svg>
-            <span class="chip-text">MANIFESTO</span>
+            <span class="chip-text" data-i18n="manifesto_chip_text">TRIẾT LÝ KỸ THUẬT</span>
           </button>
 
           <div class="manifesto-popover" id="manifestoPopover">
             <div class="popover-header">
               <div class="popover-badge">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                <span>SOFTWARE ENGINEERING</span>
+                <span data-i18n="manifesto_badge">KIẾN TRÚC PHẦN MỀM</span>
               </div>
               <button class="popover-close-btn" id="manifestoPopoverClose" aria-label="Close manifesto">&times;</button>
             </div>
             <div class="popover-body">
-              <blockquote class="manifesto-quote">“Why FOSS needs gardeners, not influencers”</blockquote>
-              <p class="manifesto-explanation">
-                Software engineering thrives on quiet craftsmanship over viral hype — tending resilient codebases, pruning tech debt, and stewarding reliable dependencies that real systems depend on.
+              <blockquote class="manifesto-quote" data-i18n="manifesto_quote">“Kiến trúc bền vững vượt lên trào lưu ngắn hạn”</blockquote>
+              <p class="manifesto-explanation" data-i18n="manifesto_desc">
+                Kỹ thuật phần mềm phát triển nhờ sự cẩn trọng và chuẩn mực bền vững — thiết kế ranh giới nghiệp vụ mạch lạc (DDD), làm chủ luồng xử lý phức tạp và xây dựng hệ thống chịu tải cao đồng hành cùng sự tăng trưởng doanh nghiệp.
               </p>
             </div>
             <div class="popover-footer">
               <button class="popover-action-link" id="manifestoReadMore">
-                <span>Explore philosophy in Archive</span>
+                <span data-i18n="manifesto_read_more">Khám phá triết lý trong Hồ Sơ</span>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
               </button>
             </div>
@@ -159,28 +163,28 @@
           <span class="pill-sparkle">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 6.6L21 11l-6.6 2.4L12 20l-2.4-6.6L3 11l6.6-2.4z"/></svg>
           </span>
-          <span id="centerActionText">Click mechanical keys or press [A-Z] for tactile switch thock</span>
+          <span id="centerActionText" data-i18n="center_action_hint">Bấm phím cơ trên bàn 3D hoặc gõ [A-Z] để nghe tiếng gõ switch thock</span>
         </button>
       </div>
 
       <div class="bottom-quick-actions">
         <button class="solid-pill-btn" id="openDrawerBtn">
-          <span>Curator Archive</span>
+          <span data-i18n="open_archive_btn">Hồ Sơ Năng Lực</span>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
     </footer>
 
-    <!-- Interactive Drawer Modal (Swiss Curator Archive) -->
+    <!-- Interactive Drawer Modal (Curator Archive) -->
     <div class="drawer-backdrop" id="drawerBackdrop"></div>
     <div class="drawer-modal" id="drawerModal">
       <div class="drawer-header">
         <div class="drawer-tabs">
-          <button class="tab-btn active" data-tab="tab-about">About</button>
-          <button class="tab-btn" data-tab="tab-experience">Experience</button>
-          <button class="tab-btn" data-tab="tab-certifications">Certifications</button>
-          <button class="tab-btn" data-tab="tab-skills">Stack &amp; Tools</button>
-          <button class="tab-btn" data-tab="tab-contact">Contact</button>
+          <button class="tab-btn active" data-tab="tab-about" data-i18n="tab_about">Giới thiệu</button>
+          <button class="tab-btn" data-tab="tab-experience" data-i18n="tab_experience">Kinh nghiệm</button>
+          <button class="tab-btn" data-tab="tab-certifications" data-i18n="tab_certifications">Chứng chỉ</button>
+          <button class="tab-btn" data-tab="tab-skills" data-i18n="tab_skills">Kỹ năng &amp; Giải pháp</button>
+          <button class="tab-btn" data-tab="tab-contact" data-i18n="tab_contact">Liên hệ</button>
         </div>
         <button class="close-btn" id="closeDrawer" aria-label="Close Curator Archive">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -191,22 +195,20 @@
         <!-- Tab: About -->
         <div class="tab-content active" id="tab-about">
           <div class="drawer-hero-bio">
-            <span class="curator-meta">ARCHIVE ID: TRIDENT-2026 / SOFTWARE B</span>
-            <h2>Trident (Đặng Phước Trí)</h2>
-            <p class="drawer-tagline">Full-stack Developer &amp; Visual Designer • Software Craftsmanship</p>
-            <p class="drawer-desc">
-              Passionate about building robust applications across backend, frontend, cloud, and DevOps.
-              I focus on performance, scalability, and creating solutions that drive real impact.
-              Bridging the refined aesthetic eye of an FPT Visual Designer with the structural rigor of enterprise cloud architecture.
+            <span class="curator-meta" data-i18n="about_meta">HỒ SƠ: TRIDENT-2026 / KIẾN TRÚC &amp; DẪN DẮT KỸ THUẬT</span>
+            <h2 data-i18n="about_name">Trident (Đặng Phước Trí)</h2>
+            <p class="drawer-tagline" data-i18n="about_tagline">Solution Architect &amp; Engineering Lead • Chuyên sâu InsurTech &amp; MarTech</p>
+            <p class="drawer-desc" data-i18n="about_desc">
+              Hơn 3 năm kinh nghiệm thực chiến trong việc thiết kế và phát triển các hệ thống quy mô lớn. Xuất phát điểm vững chắc từ nền tảng giao dịch bất động sản và chứng thực hợp đồng điện tử pháp lý, hiện tại tôi tập trung vào vai trò Solution Architect &amp; Engineering Lead cho hệ thống Bảo hiểm Trực tuyến (InsurTech) và Động cơ Tăng trưởng Tiếp thị số (MarTech) với khả năng tiếp nhận dữ liệu lead thời gian thực, tích hợp sâu Google/Meta Ads và pipeline tự động hóa loại trừ lead thông minh.
             </p>
 
             <div class="philosophy-quote-card">
               <div class="philosophy-header-badge">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
-                <span>SOFTWARE ENGINEERING MANIFESTO</span>
+                <span data-i18n="about_manifesto_badge">TUYÊN NGÔN KIẾN TRÚC HỆ THỐNG</span>
               </div>
-              <p>“Why FOSS needs gardeners, not influencers”</p>
-              <span class="quote-sub">A software engineer's discipline: nurturing codebase health through patient maintenance, refactoring technical debt, and building resilient systems over hype.</span>
+              <p data-i18n="about_manifesto_title">“Tại sao mã nguồn cần người làm vườn, không phải người tạo trend”</p>
+              <span class="quote-sub" data-i18n="about_manifesto_desc">Kỷ luật của người làm kiến trúc: duy trì sức khỏe hệ thống qua việc kiên trì xử lý nợ kỹ thuật, phân tách ranh giới nghiệp vụ chuẩn xác (Domain-Driven Design) và xây dựng nền móng vững chắc thay vì chạy theo hào nhoáng nhất thời.</span>
             </div>
 
             <div class="hobby-pills">
@@ -214,19 +216,19 @@
                 <span class="pill-icon-box piano-pill-icon">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="7" y1="4" x2="7" y2="13"/><line x1="11" y1="4" x2="11" y2="13"/><line x1="15" y1="4" x2="15" y2="13"/><line x1="3" y1="13" x2="21" y2="13"/></svg>
                 </span>
-                <span>Piano Acoustic &amp; Tactile Keys</span>
+                <span data-i18n="hobby_piano">Piano Acoustic &amp; Phím Cơ</span>
               </span>
               <span class="hobby-pill">
                 <span class="pill-icon-box sport-pill-icon">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
                 </span>
-                <span>Football Endurance</span>
+                <span data-i18n="hobby_football">Bóng Đá &amp; Sức Bền</span>
               </span>
               <span class="hobby-pill">
                 <span class="pill-icon-box craft-pill-icon">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
                 </span>
-                <span>Code Craftsmanship &amp; FOSS Maintainer</span>
+                <span data-i18n="hobby_craft">Nghệ Thuật Mã Nguồn &amp; Kiến Trúc Phân Tán</span>
               </span>
             </div>
           </div>
@@ -234,30 +236,32 @@
 
         <!-- Tab: Experience -->
         <div class="tab-content" id="tab-experience">
-          <span class="curator-meta">CAREER MILESTONES / FPT CORPORATION</span>
-          <h2>Work Experiences</h2>
+          <span class="curator-meta" data-i18n="exp_meta">DẤU MỐC SỰ NGHIỆP / FPT CORPORATION</span>
+          <h2 data-i18n="exp_heading">Kinh Nghiệm Thực Chiến</h2>
           <div class="exp-timeline">
+            <!-- Timeline Item 1 (Present) -->
             <div class="timeline-item">
               <div class="timeline-head">
-                <span class="timeline-role">Visual Designer</span>
-                <span class="timeline-company">FPT - NS</span>
-                <span class="timeline-date">May 2025 — Present</span>
+                <span class="timeline-role" data-i18n="exp1_role">Solutions Architect &amp; Engineering Lead</span>
+                <span class="timeline-company" data-i18n="exp1_company">FPT - NS</span>
+                <span class="timeline-date" data-i18n="exp1_date">05/2025 — Hiện tại</span>
               </div>
-              <div class="timeline-project">Insurance Online</div>
-              <p class="timeline-text">
-                Working as a visual designer here, worked on many products and services and learned a lot about design standards. Worked on many apps and services in a very short period of time. Leading online insurance services, streamlining high-trust user onboarding flows, and standardizing enterprise product UX.
+              <div class="timeline-project" data-i18n="exp1_project">Nền Tảng Bảo Hiểm Trực Tuyến &amp; MarTech Lead Engine</div>
+              <p class="timeline-text" data-i18n="exp1_desc">
+                Chủ trì kiến trúc giải pháp cho hệ thống Bảo hiểm Trực tuyến (InsurTech) và nền tảng tự động hóa tiếp thị (MarTech). Xây dựng hệ thống Lead Ingestion thời gian thực tích hợp với các đối tác cung cấp lead bên thứ 3 (3rd-party aggregators). Tích hợp chuyên sâu với Google Ads &amp; Meta Ads Platform qua Conversion APIs. Thiết kế luồng Automation Pipeline và cơ chế Lead Suppression (lọc lead trùng lặp, xử lý danh sách loại trừ, phân bổ thông minh). Đảm bảo tính sẵn sàng cao và an toàn bảo mật tài chính trên nền tảng Microsoft Azure.
               </p>
             </div>
 
+            <!-- Timeline Item 2 (Past) -->
             <div class="timeline-item">
               <div class="timeline-head">
-                <span class="timeline-role">Visual Designer</span>
-                <span class="timeline-company">FPT - PVS</span>
-                <span class="timeline-date">Apr 2023 — May 2025</span>
+                <span class="timeline-role" data-i18n="exp2_role">Middle Software Developer</span>
+                <span class="timeline-company" data-i18n="exp2_company">FPT - PVS</span>
+                <span class="timeline-date" data-i18n="exp2_date">04/2023 — 05/2025</span>
               </div>
-              <div class="timeline-project">Home Closing Mortgage</div>
-              <p class="timeline-text">
-                Working as a visual designer here, worked on many products and services and learned a lot about design standards. Worked on many apps and services in a very short period of time. Designed digital mortgage closing services and complex financial products.
+              <div class="timeline-project" data-i18n="exp2_project">Home Closing Mortgage &amp; Chứng Thực Hợp Đồng Điện Tử</div>
+              <p class="timeline-text" data-i18n="exp2_desc">
+                Phát triển nền tảng giao dịch bất động sản và hoàn tất thủ tục vay thế chấp trực tuyến (Digital Mortgage Closing). Trọng tâm xây dựng luồng ký kết và chứng thực hợp đồng điện tử có giá trị pháp lý cao (e-Signature, Remote Online Notarization, Audit Trail). Thiết kế các dịch vụ backend xử lý luồng tài liệu phức tạp, tích hợp các cổng xác thực danh tính và đảm bảo tính toàn vẹn dữ liệu cho các giao dịch nhà đất giá trị lớn.
               </p>
             </div>
           </div>
@@ -265,16 +269,16 @@
 
         <!-- Tab: Certifications -->
         <div class="tab-content" id="tab-certifications">
-          <span class="curator-meta">CREDENTIALS / CLOUD &amp; AI AGENTS</span>
-          <h2>Professional Certifications</h2>
+          <span class="curator-meta" data-i18n="cert_meta">CHỨNG NHẬN CHUYÊN MÔN / CLOUD &amp; AGENTIC AI</span>
+          <h2 data-i18n="cert_heading">Chứng Chỉ Quốc Tế</h2>
           <div class="cert-grid">
             <div class="cert-card">
               <div class="cert-card-header">
-                <span class="cert-badge cloud-badge">CLOUD</span>
+                <span class="cert-badge cloud-badge">CLOUD ARCH</span>
                 <span class="cert-code">AZ-900</span>
               </div>
-              <h3>Microsoft Azure Cloud Fundamental</h3>
-              <p>Microsoft Certified Cloud Architecture, Infrastructure &amp; Security Services</p>
+              <h3 data-i18n="cert1_title">Microsoft Azure Cloud Fundamentals</h3>
+              <p data-i18n="cert1_desc">Kiến trúc đám mây Microsoft, hạ tầng bảo mật, quản trị tài nguyên và điện toán phân tán</p>
             </div>
 
             <div class="cert-card">
@@ -282,8 +286,8 @@
                 <span class="cert-badge ai-badge">AGENTIC AI</span>
                 <span class="cert-code">AI-103</span>
               </div>
-              <h3>Develop AI Apps and Agents on Azure</h3>
-              <p>Azure AI Foundry, Semantic Search, Autonomous Agent Workflows &amp; LLM Orchestration</p>
+              <h3 data-i18n="cert2_title">Phát triển Ứng dụng &amp; Agent AI trên Azure</h3>
+              <p data-i18n="cert2_desc">Azure AI Foundry, Tìm kiếm ngữ nghĩa (Semantic Search), Điều phối Agent tự hành &amp; Tích hợp LLM</p>
             </div>
 
             <div class="cert-card">
@@ -291,8 +295,8 @@
                 <span class="cert-badge arch-badge">SOLUTIONS ARCH</span>
                 <span class="cert-code">AB-100</span>
               </div>
-              <h3>Agentic AI Business Solutions Architect</h3>
-              <p>Autonomous Agents, Enterprise AI Workflows &amp; Multi-Agent System Integration</p>
+              <h3 data-i18n="cert3_title">Kiến Trúc Sư Giải Pháp Doanh Nghiệp với Agentic AI</h3>
+              <p data-i18n="cert3_desc">Hệ thống Multi-Agent tự trị, quy trình tự động hóa tác vụ nghiệp vụ và tích hợp hệ thống doanh nghiệp</p>
             </div>
 
             <div class="cert-card">
@@ -300,113 +304,102 @@
                 <span class="cert-badge dev-badge">PAIR PROGRAMMING</span>
                 <span class="cert-code">GB-300</span>
               </div>
-              <h3>GitHub Copilot Certified</h3>
-              <p>AI Pair Programming, Developer Productivity &amp; Intelligent Code Generation</p>
+              <h3 data-i18n="cert4_title">GitHub Copilot Certified</h3>
+              <p data-i18n="cert4_desc">Lập trình cộng tác cùng AI, tối ưu hóa hiệu suất phát triển và chuẩn mực sinh mã thông minh</p>
             </div>
           </div>
         </div>
 
         <!-- Tab: Skills & Tools -->
         <div class="tab-content" id="tab-skills">
-          <span class="curator-meta">TECH STACK / NOTION DATABASES</span>
-          <h2>Technical Ecosystem</h2>
+          <span class="curator-meta" data-i18n="skills_meta">HỆ SINH THÁI KỸ THUẬT / NĂNG LỰC CỐT LÕI</span>
+          <h2 data-i18n="skills_heading">Hệ Sinh Thái Kỹ Thuật &amp; Giải Pháp</h2>
+          
           <div class="skill-category">
-            <h3>Core Engineering &amp; Roles</h3>
+            <h3 data-i18n="skills_cat1_title">Kiến Trúc Hệ Thống &amp; Thiết Kế Chiến Lược</h3>
             <div class="pill-cloud">
-              <span class="tag-pill highlight-pill">
-                <svg class="badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>Azure Cloud</span>
-              </span>
-              <span class="tag-pill highlight-pill">
-                <svg class="badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>ASP.NET Core</span>
-              </span>
-              <span class="tag-pill highlight-pill">
-                <svg class="badge-icon" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>Docker &amp; Containers</span>
-              </span>
-              <span class="tag-pill">Kubernetes</span>
-              <span class="tag-pill">Linux Systems</span>
-              <span class="tag-pill">SQL Database</span>
-              <span class="tag-pill">Azure OpenAI</span>
-              <span class="tag-pill">DevOps Engineer</span>
-              <span class="tag-pill">Software Engineer</span>
-              <span class="tag-pill">Web Designing</span>
-              <span class="tag-pill">English (Professional)</span>
+              <span class="tag-pill highlight-pill">Domain-Driven Design (DDD)</span>
+              <span class="tag-pill highlight-pill">Microservices Architecture</span>
+              <span class="tag-pill highlight-pill">Event-Driven Systems</span>
+              <span class="tag-pill">API Gateway &amp; Reverse Proxy</span>
+              <span class="tag-pill">High Availability (HA) &amp; DR</span>
+              <span class="tag-pill">Zero-Trust Security</span>
+              <span class="tag-pill">Enterprise Integration Patterns</span>
             </div>
           </div>
 
-          <div class="skill-category" style="margin-top: 28px;">
-            <h3>Tools by Expertise Level</h3>
-            <div class="tools-level-matrix">
-              <div class="level-group">
-                <span class="level-title expert-title">EXPERT</span>
-                <div class="level-items">
-                  <span class="tool-badge expert-badge">Visual Studio</span>
-                  <span class="tool-badge expert-badge">Microsoft Azure</span>
-                </div>
-              </div>
+          <div class="skill-category" style="margin-top: 24px;">
+            <h3 data-i18n="skills_cat2_title">Giải Pháp Nghiệp Vụ Chuyên Sâu (InsurTech, MarTech &amp; Mortgage)</h3>
+            <div class="pill-cloud">
+              <span class="tag-pill highlight-pill">Lead Ingestion (3rd-Party APIs)</span>
+              <span class="tag-pill highlight-pill">Google &amp; Meta Ads Integrations</span>
+              <span class="tag-pill highlight-pill">Lead Suppression &amp; Pipeline Automation</span>
+              <span class="tag-pill highlight-pill">Online Insurance Core (InsurTech)</span>
+              <span class="tag-pill">Mortgage Closing &amp; e-Contracts</span>
+              <span class="tag-pill">e-Signature &amp; Legal Audit Trail</span>
+              <span class="tag-pill">Conversion Rate Optimization (CRO)</span>
+            </div>
+          </div>
 
-              <div class="level-group">
-                <span class="level-title inter-title">INTERMEDIATE</span>
-                <div class="level-items">
-                  <span class="tool-badge">Docker Desktop</span>
-                  <span class="tool-badge">Postman</span>
-                  <span class="tool-badge">GitHub</span>
-                  <span class="tool-badge">Cursor AI</span>
-                  <span class="tool-badge">ChatGPT</span>
-                  <span class="tool-badge">Warp Terminal</span>
-                  <span class="tool-badge">Jira</span>
-                  <span class="tool-badge">Notion</span>
-                  <span class="tool-badge">Teams</span>
-                  <span class="tool-badge">Office Tools</span>
-                </div>
-              </div>
+          <div class="skill-category" style="margin-top: 24px;">
+            <h3 data-i18n="skills_cat3_title">Đám Mây, Hạ Tầng &amp; Nền Tảng Backend</h3>
+            <div class="pill-cloud">
+              <span class="tag-pill highlight-pill">Microsoft Azure (AKS, Functions, Bus)</span>
+              <span class="tag-pill highlight-pill">Docker &amp; Containers</span>
+              <span class="tag-pill highlight-pill">ASP.NET Core / C# (.NET 8/9)</span>
+              <span class="tag-pill">SQL Server &amp; Database Tuning</span>
+              <span class="tag-pill">Azure OpenAI &amp; Foundry</span>
+              <span class="tag-pill">CI/CD Pipelines (Azure DevOps / GitHub Actions)</span>
+              <span class="tag-pill">Redis Cache &amp; Message Queuing</span>
+              <span class="tag-pill">Linux Systems</span>
+            </div>
+          </div>
 
-              <div class="level-group">
-                <span class="level-title begin-title">BEGINNER / EXPLORING</span>
-                <div class="level-items">
-                  <span class="tool-badge">AWS</span>
-                  <span class="tool-badge">Hugging Face</span>
-                  <span class="tool-badge">LM Studio</span>
-                  <span class="tool-badge">OpenClaw</span>
-                  <span class="tool-badge">Copilot</span>
-                  <span class="tool-badge">Slack</span>
-                  <span class="tool-badge">Shortcut</span>
-                </div>
-              </div>
+          <div class="skill-category" style="margin-top: 24px;">
+            <h3 data-i18n="skills_cat4_title">Lãnh Đạo Kỹ Thuật &amp; Chuẩn Hóa Quy Trình</h3>
+            <div class="pill-cloud">
+              <span class="tag-pill highlight-pill">Architecture Decision Records (ADR)</span>
+              <span class="tag-pill highlight-pill">Technical Roadmapping &amp; Mentorship</span>
+              <span class="tag-pill">Agile / Scrum Leadership</span>
+              <span class="tag-pill">Code Reviews &amp; Tech Debt Management</span>
+              <span class="tag-pill">Cross-Functional Stakeholder Alignment</span>
             </div>
           </div>
         </div>
 
         <!-- Tab: Contact -->
         <div class="tab-content" id="tab-contact">
-          <span class="curator-meta">DIRECT COMMUNICATON / VIETNAM</span>
-          <h2>Get In Touch</h2>
-          <div class="contact-details">
-            <div class="contact-item">
-              <span class="contact-label">Direct Email</span>
-              <a href="mailto:tridp.it@outlook.com" class="contact-value">tridp.it@outlook.com</a>
-            </div>
-            <div class="contact-item">
-              <span class="contact-label">Phone</span>
-              <a href="tel:+84844822659" class="contact-value">+84 844 822 659</a>
-            </div>
-            <div class="contact-item">
-              <span class="contact-label">Socials &amp; Profiles</span>
-              <div class="social-links-drawer">
-                <a href="https://azharahmad.com" target="_blank" rel="noopener">
-                  <span>GitHub (tridentsof)</span>
-                  <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
-                </a>
-                <a href="https://www.linkedin.com/in/tri-dang-phuoc-trident-85b066244/" target="_blank" rel="noopener">
-                  <span>LinkedIn</span>
-                  <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
-                </a>
-                <a href="https://www.facebook.com/tdproducer/" target="_blank" rel="noopener">
-                  <span>Facebook</span>
-                  <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
-                </a>
+          <span class="curator-meta" data-i18n="contact_meta">KẾT NỐI TRỰC TIẾP / VIỆT NAM</span>
+          <h2 data-i18n="contact_heading">Liên Hệ &amp; Hợp Tác</h2>
+          <div class="contact-card">
+            <p class="contact-desc" data-i18n="contact_desc">
+              Sẵn sàng thảo luận về các cơ hội tư vấn giải pháp kiến trúc InsurTech / MarTech, lead engineering hoặc các dự án kỹ thuật quy mô lớn.
+            </p>
+            <div class="contact-details">
+              <div class="contact-item">
+                <span class="contact-label" data-i18n="contact_email_label">Email Trực Tiếp</span>
+                <a href="mailto:tridp.it@outlook.com" class="contact-value highlight-link">tridp.it@outlook.com</a>
+              </div>
+              <div class="contact-item">
+                <span class="contact-label" data-i18n="contact_phone_label">Số Điện Thoại</span>
+                <a href="tel:+84844822659" class="contact-value">+84 844 822 659</a>
+              </div>
+              <div class="contact-item">
+                <span class="contact-label" data-i18n="contact_social_label">Mạng Xã Hội &amp; Hồ Sơ</span>
+                <div class="social-links-drawer">
+                  <a href="https://github.com/tridentsof" target="_blank" rel="noopener">
+                    <span>GitHub (tridentsof)</span>
+                    <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
+                  </a>
+                  <a href="https://www.linkedin.com/in/tri-dang-phuoc-trident-85b066244/" target="_blank" rel="noopener">
+                    <span>LinkedIn</span>
+                    <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
+                  </a>
+                  <a href="https://www.facebook.com/tdproducer/" target="_blank" rel="noopener">
+                    <span>Facebook</span>
+                    <svg class="link-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 7"/></svg>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
