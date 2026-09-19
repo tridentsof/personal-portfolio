@@ -1,6 +1,16 @@
 import { CreativeDeskScene } from './scene/creative-desk.js';
 import { synth } from './audio/synth.js';
 import { i18n } from './i18n.js';
+import {
+  trackSectionView,
+  trackContactClick,
+  trackPreferenceChange,
+  trackKeyboardInteraction,
+  trackCameraAngleSwitch,
+  trackManifestoInteraction,
+  trackContentInspection,
+  initEngagementTimer
+} from './analytics.js';
 
 const TOAST_ICONS = {
   craft: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>`,
@@ -18,6 +28,7 @@ const TOAST_ICONS = {
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Initialize i18n & DOM Content
   i18n.applyToDOM();
+  initEngagementTimer();
 
   let currentActiveSection = 'overview';
   const camAngleName = document.getElementById('camAngleName');
@@ -55,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast(nextLang === 'vi' ? 'Đã chuyển sang Tiếng Việt' : 'Switched to English', 'sparkle');
       updateActivePerspectiveName();
       updateMobileLightLabel();
+      trackPreferenceChange('language', nextLang);
     });
   }
 
@@ -74,6 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         soundToggleBtn.style.opacity = '1';
         synth.playTactileClick(1200);
       }
+      trackPreferenceChange('audio', !isMuted);
     });
   }
 
@@ -125,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'light'
         );
       }
+      trackPreferenceChange('lighting', mode);
     });
   });
 
@@ -147,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'light'
         );
       }
+      trackPreferenceChange('lighting', nextMode);
     });
   }
 
@@ -187,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
       updateActivePerspectiveName();
     }
 
+    trackSectionView(section);
     synth.playTactileClick(1000);
   };
 
@@ -202,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
       updateActivePerspectiveName();
     }
 
+    trackSectionView('overview');
     synth.playTactileClick(800);
   };
 
@@ -292,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
       deskScene.switchAngle(dir);
       currentActiveSection = deskScene.activeSection || 'overview';
       updateActivePerspectiveName();
+      trackCameraAngleSwitch(currentActiveSection, dir > 0 ? 'next' : 'prev');
     }
   };
 
@@ -307,19 +325,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Dock Buttons
   const menuToggle = document.getElementById('menuToggle');
   if (menuToggle) {
-    menuToggle.addEventListener('click', (e) => { e.stopPropagation(); openDrawerWithTab('tab-about'); });
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDrawerWithTab('tab-about');
+      trackContentInspection('dock_button', 'menu_toggle');
+    });
     menuToggle.addEventListener('pointerdown', (e) => e.stopPropagation());
   }
 
   const quickSearch = document.getElementById('quickSearch');
   if (quickSearch) {
-    quickSearch.addEventListener('click', (e) => { e.stopPropagation(); openDrawerWithTab('tab-skills'); });
+    quickSearch.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDrawerWithTab('tab-skills');
+      trackContentInspection('dock_button', 'quick_search');
+    });
     quickSearch.addEventListener('pointerdown', (e) => e.stopPropagation());
   }
 
   const codeViewToggle = document.getElementById('codeViewToggle');
   if (codeViewToggle) {
-    codeViewToggle.addEventListener('click', (e) => { e.stopPropagation(); openDrawerWithTab('tab-skills'); });
+    codeViewToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDrawerWithTab('tab-skills');
+      trackContentInspection('dock_button', 'code_view');
+    });
     codeViewToggle.addEventListener('pointerdown', (e) => e.stopPropagation());
   }
 
@@ -344,6 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
           i18n.getLang() === 'vi' ? 'Triết lý Kỹ thuật: Bền vững & Chuẩn mực' : 'Software Engineering Manifesto: Craftsmanship & Maintenance',
           'craft'
         );
+        trackManifestoInteraction('chip_open');
       }
     });
 
@@ -359,6 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
       manifestoReadMore.addEventListener('click', () => {
         manifestoPopover.classList.remove('open');
         manifestoChipBtn.classList.remove('active');
+        trackManifestoInteraction('read_more');
         openDrawerWithTab('tab-about');
       });
     }
@@ -371,11 +403,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Manifesto external source links
+  document.querySelectorAll('.manifesto-source-link').forEach(link => {
+    link.addEventListener('click', () => trackManifestoInteraction('source_external_click'));
+  });
+
   // Center Action Pill
   const centerActionBtn = document.getElementById('centerActionBtn');
   if (centerActionBtn && deskScene) {
     centerActionBtn.addEventListener('click', () => {
       const sequence = [0, 4, 8, 14, 18, 24, 38];
+      trackKeyboardInteraction('hero_action_button', sequence.length);
       sequence.forEach((keyIdx, i) => {
         setTimeout(() => {
           if (deskScene.pianoKeys && deskScene.pianoKeys.length > 0) {
@@ -433,6 +471,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Physical Keyboard Control (Full Key typing with tactile thock)
+  let typingKeyCount = 0;
+  let typingDebounceTimer = null;
+
   window.addEventListener('keydown', (e) => {
     if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
     if (deskScene && deskScene.pianoKeys && deskScene.pianoKeys.length > 0) {
@@ -453,6 +494,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetKey) {
           targetKey.targetRotX = 0.17;
           synth.playMechanicalThock(targetKey.pitch || (0.85 + (keyIdx % 12) * 0.035));
+
+          typingKeyCount++;
+          if (typingDebounceTimer) clearTimeout(typingDebounceTimer);
+          typingDebounceTimer = setTimeout(() => {
+            trackKeyboardInteraction('typing_keys', typingKeyCount);
+            typingKeyCount = 0;
+          }, 1500);
         }
       }
     }
@@ -461,5 +509,32 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initial update for perspective text
   updateActivePerspectiveName();
 
-  console.log('[TRIDENT] 3D Spatial Studio Initialized with Bilingual System (EN/VI).');
+  // 8. Track Contact & Outbound Links with GA4
+  document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+    link.addEventListener('click', () => trackContactClick('email', link.getAttribute('href')));
+  });
+  document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+    link.addEventListener('click', () => trackContactClick('phone', link.getAttribute('href')));
+  });
+  document.querySelectorAll('a[href*="github.com"]').forEach(link => {
+    link.addEventListener('click', () => trackContactClick('github', link.getAttribute('href')));
+  });
+  document.querySelectorAll('a[href*="linkedin.com"]').forEach(link => {
+    link.addEventListener('click', () => trackContactClick('linkedin', link.getAttribute('href')));
+  });
+  document.querySelectorAll('a[href*="facebook.com"]').forEach(link => {
+    link.addEventListener('click', () => trackContactClick('facebook', link.getAttribute('href')));
+  });
+
+  // 9. Track Certificate Card & Skill Tag Inspections
+  document.querySelectorAll('.ms-cert-card').forEach(card => {
+    const certTitle = card.querySelector('.ms-cert-name')?.textContent?.trim() || 'Microsoft Certificate';
+    card.addEventListener('click', () => trackContentInspection('certificate', certTitle));
+  });
+
+  document.querySelectorAll('.tag-pill').forEach(pill => {
+    pill.addEventListener('click', () => trackContentInspection('skill_tag', pill.textContent.trim()));
+  });
+
+  console.log('[TRIDENT] 3D Spatial Studio Initialized with Bilingual System (EN/VI) & Comprehensive GA4 Telemetry.');
 });
